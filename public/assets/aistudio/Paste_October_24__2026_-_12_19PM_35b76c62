@@ -1,0 +1,1163 @@
+# MASTER PROJECT PROMPT: FORENX
+## Cross-Platform Browser Artifact Forensics and Evidence Validation Workbench
+
+Act as a senior digital forensics engineer, Python architect, application security engineer, UX/UI designer, and software testing engineer.
+
+Build a complete, functional, well-tested, cross-platform digital forensics application named **ForenX**.
+
+Do not merely generate a landing page, a dashboard mockup, static JSON, or demonstration-only controls. Build the real Python application, including browser artifact parsing, evidence integrity verification, case management, timeline analysis, validation, persistent storage, report generation, and automated tests.
+
+Work incrementally. Inspect and test the existing project before modifying it. Create a clear implementation plan, implement each phase, run the available tests, fix failures, and document anything that cannot be completed or verified.
+
+---
+
+# 1. PROJECT IDENTITY
+
+Application name: ForenX
+
+Full title: Cross-Platform Browser Artifact Forensics and Evidence Validation Workbench
+
+Category: Digital Forensics / Browser Artifact Analysis / Evidence Integrity
+
+Primary users:
+- Digital forensics students
+- Digital forensic investigators
+- Cybersecurity researchers
+- Incident response analysts
+- Academic research teams
+
+Primary purpose:
+
+ForenX enables an investigator to import authorized browser artifact databases, preserve evidence metadata, calculate SHA-256 hashes, extract supported browser activity, normalize timestamps, construct a unified event timeline, validate extracted results against known test data, and export traceable investigation reports.
+
+The application must work on Windows and Linux.
+
+The primary deployment model is local-first. Case data and evidence must remain on the investigator's computer unless the investigator explicitly chooses an export destination.
+
+ForenX is an academic forensic workbench, not a certified forensic acquisition suite. Do not claim legal admissibility, forensic certification, complete browser coverage, or guaranteed recovery of deleted data.
+
+---
+
+# 2. DEVELOPMENT RULES
+
+Follow these rules throughout implementation.
+
+1. Implement actual functionality. Never simulate a successful evidence verification or browser extraction.
+2. Do not use hardcoded sample events as if they came from real evidence.
+3. Keep demonstration data clearly marked as synthetic.
+4. Every UI action must have a real backend implementation or be visibly marked as unavailable.
+5. Show useful errors when a database is missing, malformed, unsupported, locked, or inaccessible.
+6. Never silently discard parsing errors or unsupported records.
+7. Preserve source references for extracted artifacts.
+8. Keep original evidence separate from working copies.
+9. Do not store passwords, cookies, authentication tokens, session secrets, or unrelated sensitive browser information.
+10. Do not modify source browser databases to make them easier to parse.
+11. Use parameterized SQL queries.
+12. Validate all file paths and user-supplied input.
+13. Do not use shell execution with untrusted user input.
+14. Do not claim that a hash proves evidence authenticity. A hash establishes consistency with the recorded hash at verification time.
+15. Make the interface responsive, accessible, polished, and professional.
+16. Do not finish with empty modules, TODO-only implementations, fake buttons, or placeholder API responses.
+17. If a feature is too large to complete safely, implement a smaller functional version and clearly document the limitation.
+18. Never claim tests passed unless they were actually run and their results were inspected.
+
+---
+
+# 3. REQUIRED TECHNOLOGY STACK
+
+Use the following stack unless a genuine compatibility issue requires a documented adjustment.
+
+## Backend
+- Python 3.11 or newer
+- Standard-library sqlite3 for browser database reading and the application database
+- hashlib for SHA-256
+- pathlib and shutil for controlled file handling
+- datetime and zoneinfo for timestamp handling
+- dataclasses or typed models for normalized forensic events
+- logging for application and forensic operation logs
+- pytest for automated testing
+- Ruff for linting and formatting
+
+## User interface
+- Streamlit
+- Plotly for interactive timelines, if useful
+- Custom CSS for the application theme
+- Native Streamlit components wherever possible
+
+## Persistence
+- SQLite application database stored in a dedicated application data directory
+- Versioned database schema and migrations
+- Foreign-key constraints
+- Explicit transactions
+- Unique IDs for cases, evidence items, and analysis runs
+
+## Export
+- CSV for event tables
+- JSON for structured machine-readable findings
+- Self-contained HTML report for readable investigation results
+- PDF export may be added if it can be implemented and tested reliably
+
+## Development and distribution
+- Git
+- requirements.txt or a suitable Python packaging configuration
+- pytest
+- Ruff
+- README.md
+- LICENSE
+- THIRD_PARTY_NOTICES.md
+- SECURITY.md
+- CONTRIBUTING.md
+
+Do not introduce React, Node.js, a cloud backend, a remote database, Docker, or a complex service architecture unless a concrete requirement justifies it. This project should remain manageable for a student to develop and run locally.
+
+---
+
+# 4. VISUAL DESIGN SYSTEM
+
+Create a distinctive, human-designed interface using pink, mauve, lavender, and purple shades.
+
+The interface should feel like a carefully designed forensic research product, not a generic AI-generated dashboard.
+
+## Visual direction
+- Sophisticated and calm
+- Premium research-tool aesthetic
+- Soft lavender surfaces
+- Muted rose accents
+- Deep purple navigation and typography accents
+- Clean spacing
+- Rounded but restrained components
+- Clear typographic hierarchy
+- Subtle borders
+- Consistent iconography
+- Excellent table readability
+- Carefully designed empty states
+- Clear success, warning, and failure states
+
+Avoid excessive gradients, neon colors, random emojis, oversized headings, glassmorphism everywhere, excessive cards, and unnecessary animations.
+
+## Suggested palette
+
+Define these as reusable CSS variables.
+
+Primary purple: #6D3FC0
+Deep purple: #43206F
+Lavender: #F2ECFA
+Pale lavender: #FAF7FE
+Rose pink: #D96A9B
+Soft pink: #FCEAF2
+Muted mauve: #A77AA6
+Main background: #FCFAFD
+Primary text: #282235
+Secondary text: #746B80
+Border: #E8E0EF
+Success: #287D60
+Warning: #A66B13
+Error: #B83D5B
+
+Use pink and purple primarily for brand identity, active navigation, highlights, charts, and primary actions. Do not make the entire screen pink.
+
+## Typography
+Use a clean sans-serif typeface. Prefer a locally available system font stack, with optional use of a suitable web font only if network access is explicitly enabled by the user.
+
+Use clear hierarchy:
+- Page title
+- Brief page description
+- Section heading
+- Supporting text
+- Compact metadata
+- Readable table content
+
+## Layout
+Create a persistent left sidebar with:
+- ForenX logo/wordmark
+- Overview
+- Cases
+- Evidence Vault
+- Artifact Explorer
+- Timeline
+- Validation Lab
+- Reports
+- Audit Log
+- Settings
+- About
+
+The main content area should include a top header with:
+- Current page title
+- Breadcrumb or current case context
+- Application status
+- Current case selector where appropriate
+
+The sidebar should be collapsible where supported.
+
+Use icons consistently. Use a supported icon library or Streamlit-compatible icon identifiers. Avoid inconsistent emoji-based navigation.
+
+Use subtle transitions only where supported and useful.
+
+## Responsive behavior
+- Desktop: full navigation and data tables
+- Tablet: compact sidebar and adaptable content
+- Narrow screens: stacked metrics and horizontally scrollable tables
+
+Provide an accessible contrast ratio for normal text. Do not communicate success, failure, or warning through color alone.
+
+---
+
+# 5. APPLICATION INFORMATION ARCHITECTURE
+
+Implement the following pages.
+
+## 5.1 Overview
+
+Display real statistics from the application database:
+- Total cases
+- Total evidence items
+- Total analysis runs
+- Total extracted events
+- Verification failures
+- Most recent analysis activity
+
+Add a recent cases table.
+
+Add a recent activity list showing actual recorded application events.
+
+If the database is empty, show a well-designed empty state with actions:
+- Create your first case
+- Import browser evidence
+- Explore the synthetic demo dataset
+
+The demo dataset must be isolated from actual investigation data and explicitly labeled SYNTHETIC DEMO.
+
+Never show fabricated statistics.
+
+## 5.2 Cases
+
+Functions:
+- Create case
+- View case details
+- Edit permitted case metadata
+- Archive case without deleting evidence
+- Search cases
+- Filter by status
+- View associated evidence, analyses, events, and reports
+
+Case fields:
+- Case ID
+- Case name
+- Description
+- Investigator label, optional
+- Created timestamp
+- Last modified timestamp
+- Case status
+- Notes
+
+Generate unique case identifiers.
+
+Use confirmation dialogs for destructive actions. Do not permanently delete case evidence by accident.
+
+## 5.3 Evidence Vault
+
+Functions:
+- Import evidence files
+- Display evidence inventory
+- Calculate SHA-256
+- Verify evidence against the recorded hash
+- Display evidence metadata
+- Show acquisition and handling information
+- Display verification history
+- Export evidence manifest
+
+Evidence fields:
+- Evidence ID
+- Case ID
+- Original filename
+- Evidence type
+- File size
+- SHA-256
+- Import timestamp
+- Acquisition method, if known
+- Source and provenance notes
+- Original path metadata, only when appropriate
+- Working-copy location
+- Current verification status
+- Parser compatibility status
+
+Do not automatically assume that the import timestamp is the acquisition timestamp.
+
+Do not overwrite the original file.
+
+Copy evidence to a controlled case evidence directory and hash the copied bytes. Record the acquisition/import procedure and make clear that copying alone does not prove the original source was authentic or unchanged before acquisition.
+
+For databases with SQLite sidecars, account for files such as:
+- History-wal
+- History-shm
+- places.sqlite-wal
+- places.sqlite-shm
+
+A database copied while its browser is running may not contain all recent activity. Prefer controlled test profiles with the browser closed. If sidecars exist, preserve and account for them in the evidence package and document the parser's handling. Do not silently discard sidecars or claim that a main database file alone necessarily represents a complete acquisition.
+
+Provide an explicit, documented workflow for importing a complete artifact package.
+
+## 5.4 Artifact Explorer
+
+Build real parsers for the supported browser databases.
+
+### Chromium family
+Initial support:
+- Google Chrome
+- Microsoft Edge
+- Chromium-based browsers whose schema is compatible
+
+Primary artifact:
+- History SQLite database
+
+Extract supported fields:
+- URL
+- Page title
+- Visit time
+- Visit identifier
+- Visit type or transition metadata, where available
+- Download metadata supported by the database schema
+- Source browser family
+- Source database
+- Source table
+- Source record identifier
+- Parser warnings
+
+### Firefox
+Primary artifact:
+- places.sqlite
+
+Extract supported fields:
+- URL
+- Page title
+- Visit timestamp
+- Visit identifier
+- Bookmark information
+- Source browser
+- Source database
+- Source table
+- Source record identifier
+- Parser warnings
+
+Do not claim support for every browser version or artifact type.
+
+Implement schema inspection before querying. Use parameterized queries and explicit column validation. Avoid relying on undocumented assumptions without a compatibility check.
+
+Do not extract passwords, cookies, session tokens, autofill secrets, or authentication data.
+
+### Parsing requirements
+- Read from controlled working copies.
+- Open databases in read-only mode where technically possible.
+- Handle locked databases and malformed SQLite files.
+- Check whether expected tables and columns exist.
+- Record parsing start and completion times.
+- Record parser version.
+- Record successful, skipped, and failed record counts.
+- Preserve raw timestamps.
+- Preserve source identifiers.
+- Report partial extraction clearly.
+- Do not silently suppress malformed records.
+
+Where an SQLite database depends on a WAL file, implement a documented acquisition strategy. Do not modify the evidence source by checkpointing or rewriting its database. Work on a controlled package copy when consistency recovery is required and make the exact procedure auditable.
+
+## 5.5 Unified Timeline
+
+Normalize supported browser events into a common schema.
+
+Required event fields:
+- Event ID
+- Case ID
+- Evidence ID
+- Analysis run ID
+- Browser family
+- Event type
+- URL, where relevant
+- Title, where relevant
+- Raw timestamp
+- Timestamp format
+- Normalized UTC timestamp
+- Timestamp conversion status
+- Source database
+- Source table
+- Source record ID
+- Parser name and version
+- Extraction warnings
+
+The UI should support:
+- Chronological sorting
+- Search by URL or title
+- Browser filter
+- Event type filter
+- Date range filter
+- Evidence item filter
+- UTC display
+- Original timestamp display
+- Event detail panel with source references
+
+Do not assume every browser timestamp is Unix time. Implement explicit browser-specific timestamp converters. For Chromium timestamps, support the documented microseconds-since-1601-01-01 UTC representation. For Firefox timestamps, support the relevant microsecond Unix-epoch representation when confirmed by the database schema.
+
+Preserve raw values and flag invalid or out-of-range timestamps.
+
+Do not invent a timezone for a raw UTC timestamp. If a timestamp is genuinely local or ambiguous, record the assumption and mark uncertainty.
+
+Important: temporal proximity does not prove that two events were performed by the same person or that one caused the other.
+
+## 5.6 Validation Lab
+
+This is the principal academic research feature of ForenX.
+
+Implement a validation framework that compares extracted records with known expected records from a controlled synthetic test dataset.
+
+Support:
+- Expected event manifests
+- Actual extracted event records
+- Matching rules
+- Missing-record detection
+- Unexpected-record detection
+- Field mismatch detection
+- Timestamp tolerance settings
+- Duplicate record handling
+- Validation run history
+- Reproducible test reports
+
+Display:
+- Expected records
+- Matched records
+- Missing records
+- Unexpected records
+- Field mismatches
+- Precision
+- Recall
+- Timestamp error statistics, where measurable
+- Validation warnings
+
+Define matching rules explicitly. A possible composite key is browser family + event type + URL + controlled test identifier or source visit identifier. Do not use timestamps alone to identify events.
+
+Precision = correctly matched extracted events / all extracted events in the defined evaluation scope.
+
+Recall = correctly matched expected events / all expected events in the defined evaluation scope.
+
+Handle zero denominators explicitly by showing N/A rather than dividing by zero.
+
+Do not present test results as proof that all real-world forensic extraction is correct. Describe the test dataset, browser versions, supported schemas, matching rules, and limitations.
+
+## 5.7 Reports
+
+Generate reports using actual persisted investigation results.
+
+Report types:
+- Case summary
+- Evidence manifest
+- Integrity verification report
+- Browser artifact extraction report
+- Unified timeline report
+- Validation report
+
+Reports should contain:
+- ForenX version
+- Case ID
+- Evidence IDs
+- Analysis run ID
+- Generation timestamp
+- Evidence file sizes
+- SHA-256 hashes
+- Parser versions
+- Extraction counts
+- Verification outcomes
+- Validation outcomes
+- Warnings and errors
+- Supported-scope statement
+- Limitations
+
+Support:
+- CSV
+- JSON
+- HTML
+
+Use deterministic serialization where practical, stable field names, and explicit timestamp formats.
+
+Do not place active JavaScript, remote resources, or executable content in generated reports unnecessarily.
+
+Ensure HTML report values are escaped correctly. Prevent HTML injection through case names, URLs, titles, and other extracted values.
+
+Exports must not contain passwords, cookies, session secrets, or other excluded sensitive data.
+
+Show an export preview and allow the investigator to choose a destination.
+
+## 5.8 Audit Log
+
+Record meaningful operations:
+- Case created or updated
+- Evidence imported
+- Evidence hash calculated
+- Evidence verification executed
+- Analysis started
+- Analysis completed
+- Analysis failed
+- Report exported
+- Settings changed
+
+Each audit record should contain:
+- Event ID
+- Timestamp in UTC
+- Operation type
+- Related case ID, if applicable
+- Related evidence ID, if applicable
+- Outcome
+- Safe details
+- Application version
+
+Do not log secrets or unnecessarily sensitive browser information.
+
+Protect audit records against accidental alteration within the application's normal workflow. If implementing hash chaining, define the canonical serialized event format and document its limitations. A hash chain is tamper-evident only under stated assumptions and does not prevent an administrator from replacing the entire database and recomputing the chain.
+
+## 5.9 Settings
+
+Include:
+- Application version
+- Default evidence storage directory
+- Report output directory
+- Default display timezone
+- Maximum permitted import size
+- Logging level
+- Synthetic demo mode
+- Data retention information
+- Database health
+- Environment information
+
+Validate settings before saving.
+
+Do not provide settings that disable essential evidence-integrity checks.
+
+## 5.10 About
+
+Include:
+- Project overview
+- Objectives
+- Supported browsers and artifacts
+- Architecture overview
+- Limitations
+- Technology stack
+- Version and build information
+- Third-party licenses
+- Academic research contribution
+- Responsible-use statement
+
+---
+
+# 6. ORIGINAL ACADEMIC CONTRIBUTION
+
+Do not claim that browser history extraction, multi-browser support, unified timelines, or hashing alone are novel.
+
+The principal contribution is a reproducible evidence-validation and traceability workflow that combines:
+
+1. Evidence manifests and recorded hashes.
+2. Source-linked artifact records.
+3. Raw timestamp retention and explicit normalization.
+4. Integrity verification.
+5. Known-answer validation against synthetic browser datasets.
+6. Reproducible reports containing parser versions, test scope, errors, and limitations.
+
+Research question:
+
+"How effectively can a source-traceable evidence-integrity and known-answer validation layer improve the reproducibility and verifiability of cross-browser artifact analysis?"
+
+Include this research objective in the README and technical documentation.
+
+---
+
+# 7. INTERNAL ARCHITECTURE
+
+Use a modular, layered architecture.
+
+Streamlit UI
+    |
+    v
+Application services
+    |
+    +-- Case management service
+    +-- Evidence import service
+    +-- Integrity verification service
+    +-- Analysis orchestration service
+    +-- Validation service
+    +-- Reporting service
+    |
+    v
+Browser parser interfaces
+    |
+    +-- Chromium parser
+    +-- Firefox parser
+    |
+    v
+Normalized event model
+    |
+    +-- Timestamp conversion
+    +-- Source traceability
+    +-- Validation
+    +-- Timeline queries
+    |
+    v
+SQLite application database
+
+Supporting services:
+- File storage manager
+- Audit logger
+- Configuration manager
+- Error handling
+- Test dataset generator
+
+Keep UI code separate from forensic logic. The parsers must be usable independently from Streamlit so they can be tested directly.
+
+Use typed function signatures, docstrings, clear error types, and consistent naming.
+
+Do not put all functionality in one giant app.py file.
+
+---
+
+# 8. SUGGESTED PROJECT STRUCTURE
+
+Create a clean structure similar to:
+
+ForenX/
+    pyproject.toml
+    requirements.txt
+    README.md
+    LICENSE
+    SECURITY.md
+    CONTRIBUTING.md
+    THIRD_PARTY_NOTICES.md
+    .gitignore
+    .streamlit/
+        config.toml
+    src/
+        forenx/
+            __init__.py
+            config.py
+            database.py
+            models.py
+            exceptions.py
+            cases.py
+            evidence.py
+            acquisition.py
+            integrity.py
+            audit.py
+            timestamps.py
+            events.py
+            validation.py
+            reporting.py
+            services/
+                __init__.py
+                analysis_service.py
+            parsers/
+                __init__.py
+                base.py
+                chromium.py
+                firefox.py
+            storage/
+                __init__.py
+                paths.py
+    ui/
+        __init__.py
+        styles.py
+        components.py
+        pages/
+            overview.py
+            cases.py
+            evidence.py
+            artifacts.py
+            timeline.py
+            validation.py
+            reports.py
+            audit_log.py
+            settings.py
+            about.py
+    tests/
+        unit/
+        integration/
+        fixtures/
+    test_data/
+        synthetic/
+    docs/
+        architecture.md
+        forensic_methodology.md
+        supported_artifacts.md
+        validation_methodology.md
+        threat_model.md
+        testing.md
+        user_guide.md
+        limitations.md
+    app.py
+
+You may adjust this structure to fit the actual implementation. Do not create empty files merely to imitate the tree.
+
+---
+
+# 9. DATA MODEL
+
+Design a versioned SQLite schema for at least these entities:
+
+Case
+- id
+- name
+- description
+- investigator_label
+- status
+- created_at
+- updated_at
+- notes
+
+Evidence
+- id
+- case_id
+- filename
+- evidence_type
+- byte_size
+- sha256
+- imported_at
+- acquisition_method
+- provenance_notes
+- storage_relative_path
+- verification_status
+
+AnalysisRun
+- id
+- case_id
+- started_at
+- completed_at
+- status
+- parser_versions
+- records_seen
+- records_extracted
+- records_skipped
+- warnings_count
+- error_summary
+
+Event
+- id
+- case_id
+- evidence_id
+- analysis_run_id
+- browser_family
+- event_type
+- url
+- title
+- raw_timestamp
+- timestamp_format
+- normalized_utc
+- conversion_status
+- source_database
+- source_table
+- source_record_id
+- parser_version
+- warning
+
+AuditEntry
+- id
+- timestamp_utc
+- operation
+- case_id
+- evidence_id
+- outcome
+- details
+- previous_entry_hash, if hash chaining is implemented
+- entry_hash, if hash chaining is implemented
+
+ValidationRun
+- id
+- case_id
+- created_at
+- dataset_version
+- expected_count
+- extracted_count
+- matched_count
+- missing_count
+- unexpected_count
+- precision
+- recall
+- result_summary
+
+Use foreign keys and indexes for common case, evidence, timestamp, and browser queries.
+
+Use transactions for operations that update related records.
+
+Avoid storing redundant copies of entire event datasets without a clear reason.
+
+---
+
+# 10. EVIDENCE HANDLING AND FORENSIC SAFETY
+
+Implement a clear, safe evidence-import workflow.
+
+1. The user creates or selects a case.
+2. The user selects an authorized evidence file or artifact package.
+3. The application validates the input and checks size limits.
+4. The application records the import procedure and metadata.
+5. The application creates a controlled evidence copy without overwriting the source.
+6. The application calculates the SHA-256 hash of the acquired copy.
+7. The application records the hash, size, timestamp, and acquisition notes.
+8. The application analyzes a controlled working copy.
+9. The application records parser versions and extraction outcomes.
+10. The application can verify the stored evidence against its recorded hash.
+11. The application generates reports with traceable source references.
+
+Handle the possibility that the source changes during copying. Where practical, hash the source before and after copying and compare it with the acquired copy. If the source changes during acquisition, flag the acquisition as inconsistent rather than claiming success.
+
+Be careful: checking a source file hash may itself be affected by concurrent writes, so document the limitation.
+
+Use safe filesystem operations. Reject path traversal and prevent an imported archive from writing outside its designated extraction directory. If archive import is implemented, validate every archive member path and impose file-count and expanded-size limits.
+
+Do not recursively search a user's entire computer by default.
+
+Do not automatically open the browser profile or access unrelated user data.
+
+Do not permanently alter source browser databases.
+
+---
+
+# 11. SECURITY AND PRIVACY
+
+Build for local, single-investigator use by default.
+
+Required safeguards:
+- No external telemetry by default
+- No upload of evidence to a cloud service
+- No remote code execution
+- No arbitrary shell commands
+- No unsafe pickle deserialization
+- Parameterized SQL
+- Safe report generation
+- Input validation
+- Safe evidence path management
+- Bounded file sizes
+- Controlled error reporting
+- No secrets in logs
+- No passwords or cookies in extracted results
+- Clear storage location
+- Safe handling of malformed files
+
+Configure Streamlit to bind to localhost by default.
+
+Do not expose the app to a LAN or the public internet without a separate documented deployment and authentication review.
+
+Explain that local-first does not automatically mean secure: file permissions, disk encryption, operating-system access controls, backups, and secure deletion policies still matter.
+
+If deletion is implemented, explain that ordinary file deletion does not guarantee secure erasure on SSDs, copy-on-write filesystems, or journaled filesystems.
+
+---
+
+# 12. TESTING REQUIREMENTS
+
+Build a synthetic test dataset using harmless, controlled URLs and known expected results.
+
+Do not use private browsing histories from real people.
+
+Tests must include:
+
+## Case management
+- Create a case
+- Retrieve a case
+- Update case metadata
+- Reject invalid case IDs
+- Preserve foreign-key relationships
+
+## Evidence integrity
+- Calculate a SHA-256 hash
+- Verify an unchanged evidence copy
+- Detect changed bytes
+- Detect a missing evidence file
+- Handle unreadable files
+- Verify that the source file is not modified by analysis
+
+## Chromium parser
+- Parse a valid synthetic History database
+- Extract supported visits
+- Handle repeated visits
+- Handle missing optional columns
+- Handle a missing expected table
+- Handle corrupt SQLite files
+- Handle invalid timestamps
+- Extract supported download records where present
+
+## Firefox parser
+- Parse a valid synthetic places.sqlite database
+- Extract supported visits
+- Extract supported bookmarks
+- Handle unsupported schema versions
+- Handle missing columns
+- Handle corrupt SQLite files
+- Handle invalid timestamps
+
+## Timestamp handling
+- Known Chromium timestamp conversion
+- Known Firefox timestamp conversion
+- UTC normalization
+- Invalid values
+- Out-of-range values
+- Precision and rounding behavior
+
+## Validation
+- All expected events match
+- One event is missing
+- One unexpected event exists
+- One field mismatches
+- Duplicate events are handled consistently
+- Zero denominators produce N/A
+- Matching behavior is deterministic
+
+## Reports
+- CSV contains expected columns
+- JSON is valid
+- HTML escapes untrusted strings
+- Export errors are handled
+- Reports identify the correct case and evidence
+- Reports do not include excluded sensitive fields
+
+## Application
+- Fresh database initialization
+- Database migration
+- Empty dashboard
+- Case switching
+- Empty search results
+- Large event lists
+- Import cancellation
+- Missing directories
+- Windows/Linux path behavior
+
+Use pytest fixtures and temporary directories. Keep test artifacts separate from real cases.
+
+Run tests after implementing each module, not only at the end.
+
+---
+
+# 13. DEVELOPMENT PHASES
+
+Implement the project in the following phases.
+
+## Phase 1 — Inspect and plan
+- Inspect the current workspace.
+- Identify existing files and working features.
+- Do not overwrite useful code blindly.
+- Produce an implementation plan and dependency list.
+- Identify compatibility risks.
+- Create the project structure and development environment.
+
+Deliverable: a clear plan and initialized project.
+
+## Phase 2 — Foundation
+- Implement configuration.
+- Implement database initialization and schema migrations.
+- Implement typed models.
+- Implement logging and error handling.
+- Implement case creation and retrieval.
+- Write tests.
+
+Deliverable: a working case-management backend.
+
+## Phase 3 — Evidence import and integrity
+- Implement controlled evidence import.
+- Implement SHA-256 calculation.
+- Implement stored-hash verification.
+- Implement evidence manifests.
+- Implement acquisition notes.
+- Implement audit entries.
+- Handle file changes and read errors.
+- Write integrity tests.
+
+Deliverable: a working evidence vault.
+
+## Phase 4 — Browser parsers
+- Implement the Chromium parser.
+- Implement the Firefox parser.
+- Add schema checks.
+- Add timestamp conversion.
+- Add source traceability.
+- Add structured parser warnings.
+- Write tests against synthetic SQLite fixtures.
+
+Deliverable: actual extracted browser artifacts.
+
+## Phase 5 — Analysis orchestration
+- Implement analysis runs.
+- Persist extracted events.
+- Track extraction counts and warnings.
+- Prevent accidental duplicate analysis records from being misrepresented.
+- Ensure repeated runs are traceable.
+- Write integration tests.
+
+Deliverable: repeatable case analysis.
+
+## Phase 6 — Validation engine
+- Create the synthetic known-answer dataset.
+- Implement expected-versus-actual matching.
+- Calculate precision and recall.
+- Record mismatches and timestamp errors.
+- Generate validation summaries.
+- Write tests.
+
+Deliverable: a reproducible validation lab.
+
+## Phase 7 — Reports
+- Implement CSV, JSON, and HTML exports.
+- Add evidence manifests and verification results.
+- Add event source references.
+- Add warnings and limitations.
+- Test export content and HTML escaping.
+
+Deliverable: usable investigation reports.
+
+## Phase 8 — UI
+Build the complete Streamlit interface using the defined pink-purple design system.
+
+Implement every page against the actual backend:
+- Overview
+- Cases
+- Evidence Vault
+- Artifact Explorer
+- Unified Timeline
+- Validation Lab
+- Reports
+- Audit Log
+- Settings
+- About
+
+Create meaningful empty states, loading states, error states, confirmation prompts, and success messages.
+
+Do not populate real-case pages with fabricated results.
+
+Deliverable: complete, functional interface.
+
+## Phase 9 — Security review
+- Review file operations.
+- Review database queries.
+- Review report generation.
+- Review archive handling if present.
+- Review local binding configuration.
+- Review sensitive data exposure.
+- Review audit log limitations.
+- Document threat assumptions.
+
+Deliverable: security review and documented limitations.
+
+## Phase 10 — Integration and quality
+- Run all automated tests.
+- Run Ruff.
+- Fix all confirmed failures.
+- Test a fresh installation.
+- Test a synthetic Chrome/Chromium case.
+- Test a synthetic Firefox case.
+- Test hash mismatch detection.
+- Test report exports.
+- Test the UI with no cases and with populated synthetic data.
+
+Deliverable: test report with actual results.
+
+## Phase 11 — Documentation and packaging
+Produce:
+- Installation guide for Windows
+- Installation guide for Linux
+- User guide
+- Architecture document
+- Supported-artifact matrix
+- Forensic methodology
+- Test methodology
+- Security and privacy document
+- Limitations document
+- Troubleshooting guide
+- Example synthetic case
+- Third-party license notices
+- Academic project report outline
+- Demo instructions
+
+Deliverable: a reproducible, documented academic project.
+
+---
+
+# 14. USER EXPERIENCE DETAILS
+
+Use clear terminology appropriate for digital forensics.
+
+Prefer:
+- "Evidence imported"
+- "Hash recorded"
+- "Verification passed"
+- "Verification failed"
+- "Analysis completed with warnings"
+- "Unsupported schema"
+- "Timestamp could not be normalized"
+- "Source record unavailable"
+
+Avoid:
+- "Evidence is authentic" based only on hashing
+- "Tampering confirmed" based only on a mismatch
+- "All browser activity recovered"
+- "Investigation complete" when parsing failed
+- "100% accurate" based on a small synthetic test
+
+Show the distinction between:
+- Import integrity
+- Current integrity verification
+- Parser success
+- Extraction completeness
+- Known-answer validation
+
+These are separate outcomes and must not be collapsed into one green status.
+
+Every event detail view should show where the record originated.
+
+Every failed operation should explain the problem and provide a safe next step.
+
+---
+
+# 15. DEFINITION OF DONE
+
+The project is not complete merely because the interface renders.
+
+ForenX is ready for its initial release only when:
+
+1. It installs in a clean Python environment.
+2. It starts locally on Windows and Linux, subject to documented testing.
+3. Users can create and persist cases.
+4. Users can import authorized browser evidence.
+5. Evidence is copied without overwriting the source.
+6. SHA-256 hashes are recorded and can be reverified.
+7. Supported Chromium records are extracted from real SQLite test databases.
+8. Supported Firefox records are extracted from real SQLite test databases.
+9. Events retain source references and raw timestamps.
+10. Supported timestamps are converted correctly to UTC.
+11. The validation engine identifies controlled missing and mismatched events.
+12. CSV, JSON, and HTML reports contain actual results.
+13. The application handles malformed or unsupported evidence gracefully.
+14. Automated tests run and their results are documented.
+15. The UI follows the pink-purple design system.
+16. No essential action is a fake button.
+17. The README provides exact setup and execution instructions.
+18. Limitations and supported schemas are documented.
+19. No claim of forensic certification or guaranteed admissibility is made.
+
+---
+
+# 16. FINAL INSTRUCTIONS TO THE AI BUILDER
+
+Start by inspecting the current workspace and identifying which files and features already exist.
+
+Then build the project in the development phases above.
+
+For every phase:
+1. State the concrete implementation objective.
+2. Create or modify the actual source files.
+3. Run the relevant tests when execution is available.
+4. Inspect test output.
+5. Fix the failures.
+6. Summarize files created or changed.
+7. State what has been verified and what remains unverified.
+8. Proceed to the next phase.
+
+If the environment cannot execute Python, do not pretend tests were run. Provide the exact commands the developer must execute and clearly identify unverified behavior.
+
+Prioritize a fully working forensic engine over decorative UI. Then connect the UI to the real backend.
+
+Do not stop after generating the architecture or the first dashboard. Continue implementing the remaining phases within the available environment and tool limits. If the environment has a response or file-generation limit, preserve progress in source files and provide the next exact implementation step.
+
+The final result must be a coherent, runnable project, not a collection of unrelated snippets.
+
+Begin with Phase 1 now.

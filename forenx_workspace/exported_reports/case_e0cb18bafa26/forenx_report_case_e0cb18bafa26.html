@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForenX Forensic Report — Case case_e0cb18bafa26</title>
+<style>
+  :root {
+    --primary-purple: #6D3FC0;
+    --deep-purple: #43206F;
+    --lavender: #F2ECFA;
+    --pale-lavender: #FAF7FE;
+    --rose-pink: #D96A9B;
+    --soft-pink: #FCEAF2;
+    --text-primary: #282235;
+    --text-secondary: #746B80;
+    --border: #E8E0EF;
+    --success: #287D60;
+    --warning: #A66B13;
+    --error: #B83D5B;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--pale-lavender);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 30px;
+    line-height: 1.5;
+  }
+  .report-header {
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 5px solid var(--primary-purple);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(67, 32, 111, 0.04);
+  }
+  .report-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--deep-purple);
+    margin: 0 0 8px 0;
+  }
+  .report-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 14px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(67, 32, 111, 0.02);
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--deep-purple);
+    margin-top: 0;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+  }
+  th {
+    background-color: var(--lavender);
+    color: var(--deep-purple);
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:nth-child(even) { background-color: var(--pale-lavender); }
+  .hash-code {
+    font-size: 11px;
+    background: #f1edfa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .status-verified { background: #e3f7ed; color: var(--success); }
+  .status-failed { background: #fbebee; color: var(--error); }
+  .status-warning { background: #fef4e5; color: var(--warning); }
+  .badge-subtle { background: var(--lavender); color: var(--deep-purple); }
+  .disclaimer-box {
+    background-color: var(--soft-pink);
+    border-left: 4px solid var(--rose-pink);
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #5c203b;
+    margin-top: 24px;
+  }
+  .url-col {
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="report-title">ForenX Investigation &amp; Evidence Report</div>
+  <div style="font-size: 15px; color: var(--text-secondary);">Case: <strong>SYNTHETIC DEMO: Cross-Browser Intrusion Investigation</strong> (<code>case_e0cb18bafa26</code>)</div>
+  <div class="report-meta">
+    <div>Investigator: <strong>Prof. A. Vance (ForenX Academic Evaluation)</strong></div>
+    <div>Status: <strong>ACTIVE</strong></div>
+    <div>Report Generated (UTC): <strong>2026-10-24T06:59:11.223414+00:00</strong></div>
+    <div>ForenX Core: <strong>v1.0.0</strong></div>
+  </div>
+</div>
+
+<div class="card">
+  <h3 class="card-title">Case Metadata &amp; Objectives</h3>
+  <p><strong>Description:</strong> Controlled forensic test dataset containing known Chromium and Firefox artifacts for known-answer validation.</p>
+  <p><strong>Investigator Notes:</strong> Synthetic test dataset generated for cross-browser timeline reconstruction and precision/recall evaluation.</p>
+  <p><strong>Created:</strong> 2026-10-24T06:59:11.192536+00:00 | <strong>Last Updated:</strong> 2026-10-24T06:59:11.192536+00:00</p>
+</div>
+
+<div class="card">
+  <h3 class="card-title">Evidence Inventory &amp; Integrity Verification Manifest</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Evidence ID</th>
+        <th>Original Filename</th>
+        <th>Artifact Type</th>
+        <th>File Size</th>
+        <th>Recorded SHA-256 Hash</th>
+        <th>Integrity Verification</th>
+        <th>Imported (UTC)</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+            <td><code>evi_67d61ececfd9</code></td>
+            <td><strong>History</strong></td>
+            <td>chromium_history</td>
+            <td>20,480 B</td>
+            <td><code class="hash-code">693bbad62888507d022607f7863d11c4388ff636776943e641de99e86364341e</code></td>
+            <td><span class="badge status-verified">verified</span></td>
+            <td>2026-10-24T06:59:11.200615+00:00</td>
+        </tr>
+        
+        <tr>
+            <td><code>evi_b71db219e057</code></td>
+            <td><strong>places.sqlite</strong></td>
+            <td>firefox_places</td>
+            <td>20,480 B</td>
+            <td><code class="hash-code">1e3a5c7b58123e620ee3a8cf3fee1ebf5eefa688c42e30f116bfbc83fd48cc82</code></td>
+            <td><span class="badge status-verified">verified</span></td>
+            <td>2026-10-24T06:59:11.205078+00:00</td>
+        </tr>
+        
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h3 class="card-title">Unified Timeline Events (First 8 of 8 Records)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Normalized UTC</th>
+        <th>Browser</th>
+        <th>Event Type</th>
+        <th>URL</th>
+        <th>Title</th>
+        <th>Source Reference</th>
+        <th>Timestamp Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+            <td><small>2026-10-15T14:30:00+00:00</small></td>
+            <td><strong>Chromium</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://en.wikipedia.org/wiki/Digital_forensics" target="_blank" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Digital_forensics</a></td>
+            <td>Digital Forensics - Wikipedia</td>
+            <td><code>History:101</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-15T15:10:00+00:00</small></td>
+            <td><strong>Chromium</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://csrc.nist.gov/projects/computer-forensic-tool-testing-cftt" target="_blank" rel="noopener noreferrer">https://csrc.nist.gov/projects/computer-forensic-tool-testing-cftt</a></td>
+            <td>NIST CFTT Project</td>
+            <td><code>History:102</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-16T09:20:00+00:00</small></td>
+            <td><strong>Chromium</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://github.com/forenx-project/research" target="_blank" rel="noopener noreferrer">https://github.com/forenx-project/research</a></td>
+            <td>ForenX Research Repository</td>
+            <td><code>History:103</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-16T11:45:00+00:00</small></td>
+            <td><strong>Chromium</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://academic.oup.com/dfr" target="_blank" rel="noopener noreferrer">https://academic.oup.com/dfr</a></td>
+            <td>Digital Forensic Research - Academic Review</td>
+            <td><code>History:104</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-16T12:00:00+00:00</small></td>
+            <td><strong>Chromium</strong></td>
+            <td><span class="badge badge-subtle">download</span></td>
+            <td class="url-col"><a href="https://csrc.nist.gov/downloads/nist_test_image.dd" target="_blank" rel="noopener noreferrer">https://csrc.nist.gov/downloads/nist_test_image.dd</a></td>
+            <td>nist_test_image.dd</td>
+            <td><code>History:201</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-17T10:00:00+00:00</small></td>
+            <td><strong>Firefox</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener noreferrer">https://www.wireshark.org/docs/</a></td>
+            <td>Wireshark Documentation</td>
+            <td><code>places.sqlite:501</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-17T13:15:00+00:00</small></td>
+            <td><strong>Firefox</strong></td>
+            <td><span class="badge badge-subtle">url_visit</span></td>
+            <td class="url-col"><a href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/library/sqlite3.html</a></td>
+            <td>sqlite3 — DB-API 2.0 interface for SQLite databases</td>
+            <td><code>places.sqlite:502</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+        <tr>
+            <td><small>2026-10-17T13:25:00+00:00</small></td>
+            <td><strong>Firefox</strong></td>
+            <td><span class="badge badge-subtle">bookmark</span></td>
+            <td class="url-col"><a href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/library/sqlite3.html</a></td>
+            <td>sqlite3 Python Documentation Bookmark</td>
+            <td><code>places.sqlite:801</code></td>
+            <td><span class="badge status-verified">success</span></td>
+        </tr>
+        
+    </tbody>
+  </table>
+</div>
+
+
+<div class="card">
+  <h3 class="card-title">Known-Answer Validation Lab Results</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Run ID</th>
+        <th>Dataset Version</th>
+        <th>Expected</th>
+        <th>Matched</th>
+        <th>Missing</th>
+        <th>Unexpected</th>
+        <th>Precision</th>
+        <th>Recall</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+            <td><code>val_36d4f482b3f1</code></td>
+            <td>synthetic-groundtruth-v1.0</td>
+            <td>8</td>
+            <td>8</td>
+            <td>0</td>
+            <td>0</td>
+            <td><strong>100.0%</strong></td>
+            <td><strong>100.0%</strong></td>
+        </tr>
+        
+    </tbody>
+  </table>
+</div>
+
+
+<div class="disclaimer-box">
+  <strong>Forensic Scope &amp; Legal Admissibility Disclaimer:</strong><br>
+  ForenX is an academic research and validation workbench, not a certified legal acquisition suite. Calculated hashes verify byte-consistency against recorded hashes at verification time, but do not prove origin authenticity prior to acquisition. Extracted browser records reflect supported schemas only and do not guarantee recovery of deleted records, ephemeral private sessions, or uncommitted SQLite WAL data.
+  <br><br>
+  <strong>Supported Technical Scope:</strong><br>
+  Supported artifact sources: Chromium History (Google Chrome, Microsoft Edge, Brave, Chromium engines; tables &#x27;urls&#x27;, &#x27;visits&#x27;, &#x27;downloads&#x27;) and Mozilla Firefox places.sqlite (tables &#x27;moz_places&#x27;, &#x27;moz_historyvisits&#x27;, &#x27;moz_bookmarks&#x27;). Excluded data: session secrets, credentials, cookies, autofill, and passwords.
+</div>
+
+</body>
+</html>

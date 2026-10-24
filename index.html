@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Gracefully handle Vite HMR WebSocket in AI Studio iframe environment
+      (function() {
+        window.addEventListener('error', function(e) {
+          if (
+            (e.message && (e.message.includes('WebSocket') || e.message.includes('createWebSocketModuleRunnerTransport'))) ||
+            (e.error && e.error.message && e.error.message.includes('WebSocket'))
+          ) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(e) {
+          const reasonStr = String(e.reason?.message || e.reason || '');
+          if (reasonStr.includes('WebSocket') || reasonStr.includes('createWebSocketModuleRunnerTransport')) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+
+        const OrigWebSocket = window.WebSocket;
+        if (OrigWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            if (protocols === 'vite-hmr' || (typeof url === 'string' && (url.includes('token=') || url.includes('/@vite/')))) {
+              return {
+                readyState: 1,
+                OPEN: 1,
+                CLOSED: 3,
+                CLOSING: 2,
+                CONNECTING: 0,
+                addEventListener: function(event, callback) {
+                  if (event === 'open') {
+                    setTimeout(callback, 0);
+                  }
+                },
+                removeEventListener: function() {},
+                send: function() {},
+                close: function() {}
+              };
+            }
+            return new OrigWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OrigWebSocket.prototype;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSED = 3;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CONNECTING = 0;
+        }
+      })();
+    </script>
+    <title>ForenX — Browser Artifact Forensics &amp; Evidence Validation</title>
+    <meta name="description" content="Cross-platform browser artifact forensics, evidence integrity verification, unified timeline reconstruction, and known-answer validation workbench." />
+    <meta property="og:title" content="ForenX — Browser Artifact Forensics &amp; Evidence Validation" />
+    <meta property="og:description" content="Cross-platform browser artifact forensics, evidence integrity verification, unified timeline reconstruction, and known-answer validation workbench." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

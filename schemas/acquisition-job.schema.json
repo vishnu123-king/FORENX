@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://forenx.local/schemas/acquisition-job.schema.json",
+  "title": "ForenX Scoped Acquisition Job Specification",
+  "type": "object",
+  "required": [
+    "job_schema_version",
+    "job_id",
+    "case_id",
+    "endpoint_id",
+    "requesting_investigator_id",
+    "created_at_utc",
+    "expires_at_utc",
+    "replay_nonce",
+    "authorized_scope",
+    "status"
+  ],
+  "properties": {
+    "job_schema_version": { "type": "string", "enum": ["1.0.0"] },
+    "job_id": { "type": "string" },
+    "case_id": { "type": "string" },
+    "endpoint_id": { "type": "string" },
+    "requesting_investigator_id": { "type": "string" },
+    "created_at_utc": { "type": "string", "format": "date-time" },
+    "expires_at_utc": { "type": "string", "format": "date-time" },
+    "replay_nonce": { "type": "string", "minLength": 16 },
+    "status": {
+      "type": "string",
+      "enum": ["created", "pending", "approved", "in_progress", "completed", "failed", "cancelled", "rejected"]
+    },
+    "authorized_scope": {
+      "type": "object",
+      "required": ["approved_browsers", "approved_artifact_types", "allow_wal_sidecars"],
+      "properties": {
+        "approved_browsers": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["chrome", "edge", "brave", "chromium", "firefox"] }
+        },
+        "approved_profile_identifiers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "approved_artifact_types": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["History", "Bookmarks", "places.sqlite"] }
+        },
+        "allow_wal_sidecars": { "type": "boolean" },
+        "max_package_size_mb": { "type": "integer", "maximum": 2048, "default": 500 }
+      }
+    },
+    "authorization_metadata": {
+      "type": "object",
+      "properties": {
+        "warrant_or_incident_id": { "type": "string" },
+        "investigator_signature_label": { "type": "string" },
+        "scope_summary": { "type": "string" }
+      }
+    },
+    "execution_results": {
+      "type": "object",
+      "properties": {
+        "started_at_utc": { "type": "string" },
+        "completed_at_utc": { "type": "string" },
+        "package_id": { "type": "string" },
+        "package_sha256": { "type": "string" },
+        "artifacts_collected_count": { "type": "integer" },
+        "failure_reason": { "type": "string" }
+      }
+    }
+  }
+}

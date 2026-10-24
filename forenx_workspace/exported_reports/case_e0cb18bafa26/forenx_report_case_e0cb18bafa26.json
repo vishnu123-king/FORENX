@@ -1,0 +1,474 @@
+{
+  "analysis_runs": [
+    {
+      "case_id": "case_e0cb18bafa26",
+      "completed_at": "2026-10-24T06:59:11.215660+00:00",
+      "error_summary": "",
+      "id": "run_00eb7568ec2f",
+      "parser_versions": "ChromiumHistoryParser 1.0.0, FirefoxPlacesParser 1.0.0",
+      "records_extracted": 8,
+      "records_seen": 8,
+      "records_skipped": 0,
+      "started_at": "2026-10-24T06:59:11.210846+00:00",
+      "status": "completed",
+      "warnings_count": 0
+    }
+  ],
+  "audit_entries": [
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Validation Run (synthetic-groundtruth-v1.0): 8/8 expected events matched. Precision: 100.0%, Recall: 100.0%. Missing: 0, Unexpected: 0, Field mismatches: 0.",
+      "entry_hash": "73e4c733608ed04d41d8a80b353151377839053556dfa0af91a21051853e02c9",
+      "evidence_id": null,
+      "id": "aud_67ea7967b965",
+      "operation": "validation_executed",
+      "outcome": "success",
+      "previous_entry_hash": "ab92688a527df30b925d4bfc7b757a4c6c2f8718c8dea9be206d87bd1db62e19",
+      "timestamp_utc": "2026-10-24T06:59:11.218950+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Analysis run 'run_00eb7568ec2f' finished: 8 records extracted, 0 warnings.",
+      "entry_hash": "ab92688a527df30b925d4bfc7b757a4c6c2f8718c8dea9be206d87bd1db62e19",
+      "evidence_id": null,
+      "id": "aud_274d92624673",
+      "operation": "analysis_completed",
+      "outcome": "success",
+      "previous_entry_hash": "b900e11020c4aeb395e0441c757474398301f89a86d7a122b5c2b8af99cc4eea",
+      "timestamp_utc": "2026-10-24T06:59:11.215773+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Started analysis run 'run_00eb7568ec2f' for 2 evidence item(s).",
+      "entry_hash": "b900e11020c4aeb395e0441c757474398301f89a86d7a122b5c2b8af99cc4eea",
+      "evidence_id": null,
+      "id": "aud_6f49426bc9f4",
+      "operation": "analysis_started",
+      "outcome": "success",
+      "previous_entry_hash": "2dac5312939e5cee9b18eb962263394abc213f8a26d678536b9a7e4692aaf849",
+      "timestamp_utc": "2026-10-24T06:59:11.211557+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Verification status: verified. Recorded: 1e3a5c7b5812..., Computed: 1e3a5c7b5812...",
+      "entry_hash": "2dac5312939e5cee9b18eb962263394abc213f8a26d678536b9a7e4692aaf849",
+      "evidence_id": "evi_b71db219e057",
+      "id": "aud_c870a44d0136",
+      "operation": "evidence_verified",
+      "outcome": "success",
+      "previous_entry_hash": "968e775ef91135a2d5b857af6579abf7dba9911cc3963698f5a1bd751e171852",
+      "timestamp_utc": "2026-10-24T06:59:11.209572+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Verification status: verified. Recorded: 693bbad62888..., Computed: 693bbad62888...",
+      "entry_hash": "968e775ef91135a2d5b857af6579abf7dba9911cc3963698f5a1bd751e171852",
+      "evidence_id": "evi_67d61ececfd9",
+      "id": "aud_ddeed0724e59",
+      "operation": "evidence_verified",
+      "outcome": "success",
+      "previous_entry_hash": "70d0951ae94aa2a5f4e49d51e5d9e7cc33f74541216af8e1eea73e5a73bdeb0f",
+      "timestamp_utc": "2026-10-24T06:59:11.207722+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Imported evidence 'places.sqlite' (20480 bytes, SHA-256: 1e3a5c7b5812...)",
+      "entry_hash": "70d0951ae94aa2a5f4e49d51e5d9e7cc33f74541216af8e1eea73e5a73bdeb0f",
+      "evidence_id": "evi_b71db219e057",
+      "id": "aud_e8aff4b0530f",
+      "operation": "evidence_imported",
+      "outcome": "success",
+      "previous_entry_hash": "9a4f4033fc08eff5cb945e9889352bdbea04e5c8088ed47781f3bdaf2236b346",
+      "timestamp_utc": "2026-10-24T06:59:11.205846+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Imported evidence 'History' (20480 bytes, SHA-256: 693bbad62888...)",
+      "entry_hash": "9a4f4033fc08eff5cb945e9889352bdbea04e5c8088ed47781f3bdaf2236b346",
+      "evidence_id": "evi_67d61ececfd9",
+      "id": "aud_7e45cdf2e14e",
+      "operation": "evidence_imported",
+      "outcome": "success",
+      "previous_entry_hash": "38677a32b5c0e26258b70d3e784c2e0ce0670d4768967224a6c0941a9f12c240",
+      "timestamp_utc": "2026-10-24T06:59:11.201583+00:00"
+    },
+    {
+      "case_id": "case_e0cb18bafa26",
+      "details": "Created case 'SYNTHETIC DEMO: Cross-Browser Intrusion Investigation' by 'Prof. A. Vance (ForenX Academic Evaluation)'",
+      "entry_hash": "38677a32b5c0e26258b70d3e784c2e0ce0670d4768967224a6c0941a9f12c240",
+      "evidence_id": null,
+      "id": "aud_5bad40b8fd4a",
+      "operation": "case_created",
+      "outcome": "success",
+      "previous_entry_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "timestamp_utc": "2026-10-24T06:59:11.193511+00:00"
+    }
+  ],
+  "case": {
+    "created_at": "2026-10-24T06:59:11.192536+00:00",
+    "description": "Controlled forensic test dataset containing known Chromium and Firefox artifacts for known-answer validation.",
+    "id": "case_e0cb18bafa26",
+    "investigator_label": "Prof. A. Vance (ForenX Academic Evaluation)",
+    "name": "SYNTHETIC DEMO: Cross-Browser Intrusion Investigation",
+    "notes": "Synthetic test dataset generated for cross-browser timeline reconstruction and precision/recall evaluation.",
+    "status": "active",
+    "updated_at": "2026-10-24T06:59:11.192536+00:00"
+  },
+  "evidence_items": [
+    {
+      "acquisition_method": "synthetic_controlled_generation",
+      "byte_size": 20480,
+      "case_id": "case_e0cb18bafa26",
+      "evidence_type": "chromium_history",
+      "filename": "History",
+      "id": "evi_67d61ececfd9",
+      "imported_at": "2026-10-24T06:59:11.200615+00:00",
+      "parser_compatibility": "compatible",
+      "provenance_notes": "Synthetic Chromium browser History database with 4 visit events and 1 download.",
+      "sha256": "693bbad62888507d022607f7863d11c4388ff636776943e641de99e86364341e",
+      "storage_relative_path": "case_e0cb18bafa26/evi_67d61ececfd9/History",
+      "verification_status": "verified"
+    },
+    {
+      "acquisition_method": "synthetic_controlled_generation",
+      "byte_size": 20480,
+      "case_id": "case_e0cb18bafa26",
+      "evidence_type": "firefox_places",
+      "filename": "places.sqlite",
+      "id": "evi_b71db219e057",
+      "imported_at": "2026-10-24T06:59:11.205078+00:00",
+      "parser_compatibility": "compatible",
+      "provenance_notes": "Synthetic Mozilla Firefox places.sqlite database with 2 visit events and 1 bookmark.",
+      "sha256": "1e3a5c7b58123e620ee3a8cf3fee1ebf5eefa688c42e30f116bfbc83fd48cc82",
+      "storage_relative_path": "case_e0cb18bafa26/evi_b71db219e057/places.sqlite",
+      "verification_status": "verified"
+    }
+  ],
+  "forenx_version": "1.0.0",
+  "generated_at_utc": "2026-10-24T06:59:11.227944+00:00",
+  "limitations_statement": "ForenX is an academic research and validation workbench, not a certified legal acquisition suite. Calculated hashes verify byte-consistency against recorded hashes at verification time, but do not prove origin authenticity prior to acquisition. Extracted browser records reflect supported schemas only and do not guarantee recovery of deleted records, ephemeral private sessions, or uncommitted SQLite WAL data.",
+  "sample_events": [
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Chromium",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_67d61ececfd9",
+      "extra_metadata": {
+        "from_visit": 0,
+        "transition": "LINK",
+        "visit_count": 5
+      },
+      "id": "evt_f4d97d66729a",
+      "normalized_utc": "2026-10-15T14:30:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 13436548200000000,
+      "source_database": "History",
+      "source_record_id": "101",
+      "source_table": "visits / urls",
+      "timestamp_format": "webkit_microseconds_1601",
+      "title": "Digital Forensics - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Digital_forensics",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Chromium",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_67d61ececfd9",
+      "extra_metadata": {
+        "from_visit": 101,
+        "transition": "LINK",
+        "visit_count": 2
+      },
+      "id": "evt_ffb4b03714e9",
+      "normalized_utc": "2026-10-15T15:10:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 13436550600000000,
+      "source_database": "History",
+      "source_record_id": "102",
+      "source_table": "visits / urls",
+      "timestamp_format": "webkit_microseconds_1601",
+      "title": "NIST CFTT Project",
+      "url": "https://csrc.nist.gov/projects/computer-forensic-tool-testing-cftt",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Chromium",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_67d61ececfd9",
+      "extra_metadata": {
+        "from_visit": 0,
+        "transition": "TYPED",
+        "visit_count": 1
+      },
+      "id": "evt_a5da3fc72d0e",
+      "normalized_utc": "2026-10-16T09:20:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 13436616000000000,
+      "source_database": "History",
+      "source_record_id": "103",
+      "source_table": "visits / urls",
+      "timestamp_format": "webkit_microseconds_1601",
+      "title": "ForenX Research Repository",
+      "url": "https://github.com/forenx-project/research",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Chromium",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_67d61ececfd9",
+      "extra_metadata": {
+        "from_visit": 0,
+        "transition": "LINK",
+        "visit_count": 3
+      },
+      "id": "evt_e028f15dd23e",
+      "normalized_utc": "2026-10-16T11:45:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 13436624700000000,
+      "source_database": "History",
+      "source_record_id": "104",
+      "source_table": "visits / urls",
+      "timestamp_format": "webkit_microseconds_1601",
+      "title": "Digital Forensic Research - Academic Review",
+      "url": "https://academic.oup.com/dfr",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Chromium",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "download",
+      "evidence_id": "evi_67d61ececfd9",
+      "extra_metadata": {
+        "received_bytes": 104857600,
+        "state": "COMPLETE",
+        "target_path": "/downloads/nist_test_image.dd",
+        "total_bytes": 104857600
+      },
+      "id": "evt_fe26a4093f10",
+      "normalized_utc": "2026-10-16T12:00:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 13436625600000000,
+      "source_database": "History",
+      "source_record_id": "201",
+      "source_table": "downloads",
+      "timestamp_format": "webkit_microseconds_1601",
+      "title": "nist_test_image.dd",
+      "url": "https://csrc.nist.gov/downloads/nist_test_image.dd",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Firefox",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_b71db219e057",
+      "extra_metadata": {
+        "from_visit": 0,
+        "visit_count": 3,
+        "visit_type": "LINK"
+      },
+      "id": "evt_389d4823869f",
+      "normalized_utc": "2026-10-17T10:00:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 1792231200000000,
+      "source_database": "places.sqlite",
+      "source_record_id": "501",
+      "source_table": "moz_historyvisits / moz_places",
+      "timestamp_format": "prtime_microseconds_1970",
+      "title": "Wireshark Documentation",
+      "url": "https://www.wireshark.org/docs/",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Firefox",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "url_visit",
+      "evidence_id": "evi_b71db219e057",
+      "extra_metadata": {
+        "from_visit": 501,
+        "visit_count": 6,
+        "visit_type": "LINK"
+      },
+      "id": "evt_98ebd4c228d6",
+      "normalized_utc": "2026-10-17T13:15:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 1792242900000000,
+      "source_database": "places.sqlite",
+      "source_record_id": "502",
+      "source_table": "moz_historyvisits / moz_places",
+      "timestamp_format": "prtime_microseconds_1970",
+      "title": "sqlite3 \u2014 DB-API 2.0 interface for SQLite databases",
+      "url": "https://docs.python.org/3/library/sqlite3.html",
+      "warning": ""
+    },
+    {
+      "analysis_run_id": "run_00eb7568ec2f",
+      "browser_family": "Firefox",
+      "case_id": "case_e0cb18bafa26",
+      "conversion_status": "success",
+      "event_type": "bookmark",
+      "evidence_id": "evi_b71db219e057",
+      "extra_metadata": {
+        "last_modified_raw": 1792243500000000
+      },
+      "id": "evt_9d921f7753c6",
+      "normalized_utc": "2026-10-17T13:25:00+00:00",
+      "parser_version": "1.0.0",
+      "raw_timestamp": 1792243500000000,
+      "source_database": "places.sqlite",
+      "source_record_id": "801",
+      "source_table": "moz_bookmarks",
+      "timestamp_format": "prtime_microseconds_1970",
+      "title": "sqlite3 Python Documentation Bookmark",
+      "url": "https://docs.python.org/3/library/sqlite3.html",
+      "warning": ""
+    }
+  ],
+  "supported_scope": "Supported artifact sources: Chromium History (Google Chrome, Microsoft Edge, Brave, Chromium engines; tables 'urls', 'visits', 'downloads') and Mozilla Firefox places.sqlite (tables 'moz_places', 'moz_historyvisits', 'moz_bookmarks'). Excluded data: session secrets, credentials, cookies, autofill, and passwords.",
+  "total_events_count": 8,
+  "validation_runs": [
+    {
+      "case_id": "case_e0cb18bafa26",
+      "created_at": "2026-10-24T06:59:11.218407+00:00",
+      "dataset_version": "synthetic-groundtruth-v1.0",
+      "details": {
+        "field_mismatches": [],
+        "matched_records": [
+          {
+            "actual_id": "evt_f4d97d66729a",
+            "expected": {
+              "browser_family": "Chromium",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-15T14:30:00+00:00",
+              "test_id": "TEST_CHROME_VISIT_01",
+              "title": "Digital Forensics - Wikipedia",
+              "url": "https://en.wikipedia.org/wiki/Digital_forensics"
+            },
+            "url": "https://en.wikipedia.org/wiki/Digital_forensics"
+          },
+          {
+            "actual_id": "evt_ffb4b03714e9",
+            "expected": {
+              "browser_family": "Chromium",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-15T15:10:00+00:00",
+              "test_id": "TEST_CHROME_VISIT_02",
+              "title": "NIST CFTT Project",
+              "url": "https://csrc.nist.gov/projects/computer-forensic-tool-testing-cftt"
+            },
+            "url": "https://csrc.nist.gov/projects/computer-forensic-tool-testing-cftt"
+          },
+          {
+            "actual_id": "evt_a5da3fc72d0e",
+            "expected": {
+              "browser_family": "Chromium",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-16T09:20:00+00:00",
+              "test_id": "TEST_CHROME_VISIT_03",
+              "title": "ForenX Research Repository",
+              "url": "https://github.com/forenx-project/research"
+            },
+            "url": "https://github.com/forenx-project/research"
+          },
+          {
+            "actual_id": "evt_e028f15dd23e",
+            "expected": {
+              "browser_family": "Chromium",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-16T11:45:00+00:00",
+              "test_id": "TEST_CHROME_VISIT_04",
+              "title": "Digital Forensic Research - Academic Review",
+              "url": "https://academic.oup.com/dfr"
+            },
+            "url": "https://academic.oup.com/dfr"
+          },
+          {
+            "actual_id": "evt_fe26a4093f10",
+            "expected": {
+              "browser_family": "Chromium",
+              "event_type": "download",
+              "expected_utc": "2026-10-16T12:00:00+00:00",
+              "test_id": "TEST_CHROME_DL_01",
+              "title": "nist_test_image.dd",
+              "url": "https://csrc.nist.gov/downloads/nist_test_image.dd"
+            },
+            "url": "https://csrc.nist.gov/downloads/nist_test_image.dd"
+          },
+          {
+            "actual_id": "evt_389d4823869f",
+            "expected": {
+              "browser_family": "Firefox",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-17T10:00:00+00:00",
+              "test_id": "TEST_FF_VISIT_01",
+              "title": "Wireshark Documentation",
+              "url": "https://www.wireshark.org/docs/"
+            },
+            "url": "https://www.wireshark.org/docs/"
+          },
+          {
+            "actual_id": "evt_98ebd4c228d6",
+            "expected": {
+              "browser_family": "Firefox",
+              "event_type": "url_visit",
+              "expected_utc": "2026-10-17T13:15:00+00:00",
+              "test_id": "TEST_FF_VISIT_02",
+              "title": "sqlite3 \u2014 DB-API 2.0 interface for SQLite databases",
+              "url": "https://docs.python.org/3/library/sqlite3.html"
+            },
+            "url": "https://docs.python.org/3/library/sqlite3.html"
+          },
+          {
+            "actual_id": "evt_9d921f7753c6",
+            "expected": {
+              "browser_family": "Firefox",
+              "event_type": "bookmark",
+              "expected_utc": "2026-10-17T13:25:00+00:00",
+              "test_id": "TEST_FF_BM_01",
+              "title": "sqlite3 Python Documentation Bookmark",
+              "url": "https://docs.python.org/3/library/sqlite3.html"
+            },
+            "url": "https://docs.python.org/3/library/sqlite3.html"
+          }
+        ],
+        "missing_records": [],
+        "timestamp_errors_seconds": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "unexpected_records": []
+      },
+      "expected_count": 8,
+      "extracted_count": 8,
+      "id": "val_36d4f482b3f1",
+      "matched_count": 8,
+      "missing_count": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "result_summary": "Validation Run (synthetic-groundtruth-v1.0): 8/8 expected events matched. Precision: 100.0%, Recall: 100.0%. Missing: 0, Unexpected: 0, Field mismatches: 0.",
+      "unexpected_count": 0
+    }
+  ]
+}

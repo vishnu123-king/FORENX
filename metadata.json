@@ -1,0 +1,6 @@
+{
+  "name": "ForenX - Browser Artifact Forensics & Validation Workbench",
+  "description": "Cross-platform browser artifact forensics, evidence integrity verification, unified timeline reconstruction, and known-answer validation workbench.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

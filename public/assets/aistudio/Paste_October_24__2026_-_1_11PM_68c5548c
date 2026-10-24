@@ -1,0 +1,1644 @@
+# FORENX — PRODUCTION-GRADE DUAL-MODE DIGITAL FORENSICS PLATFORM
+## Complete implementation specification for Google AI Studio
+
+Act as a principal software architect, senior Python engineer, React and TypeScript engineer, digital forensics specialist, application security engineer, DevSecOps engineer, and quality assurance lead.
+
+Build **ForenX**, a cross-platform, production-oriented digital forensics platform supporting local browser evidence collection, remote endpoint collection, evidence integrity verification, browser artifact analysis, unified timelines, validation, and reproducible reporting.
+
+This is an existing project specification. If source code already exists in the workspace or connected GitHub repository, inspect it before modifying anything. Preserve correct implementations, migrate existing features carefully, and do not discard working code just to produce a different architecture.
+
+The goal is a real, testable, deployable software system. A polished interface alone does not satisfy the requirements.
+
+Do not claim that the application is production-ready merely because the code compiles or the UI renders. Production readiness must be assessed against the defined tests, security review, deployment configuration, and documented limitations.
+
+---
+
+# 1. PRODUCT DEFINITION
+
+Product name: ForenX
+
+Full title: Cross-Platform Browser Artifact Forensics and Evidence Validation Workbench
+
+Domain: Digital Forensics and Cybersecurity
+
+Primary users:
+- Digital forensic investigators
+- Incident response analysts
+- Cybersecurity researchers
+- Digital forensics students
+- Authorized forensic research teams
+
+## Core objective
+
+ForenX must support two primary operating modes.
+
+### Mode A — Local System Forensics
+
+ForenX is installed and runs on the same computer whose browser artifacts are being examined.
+
+The user opens ForenX, discovers local browser profiles, reviews the acquisition scope, authorizes collection, acquires supported browser artifacts, verifies their integrity, analyzes them, and generates reports.
+
+The user must not need to locate or manually upload ordinary browser database files.
+
+### Mode B — Remote System Forensics
+
+The forensic investigator uses a ForenX Workbench on their own computer or designated server to examine a different, authorized client computer.
+
+Remote collection supports two methods:
+
+1. **Connected remote collection:** an explicitly installed or launched ForenX Remote Agent runs on the client computer and communicates with the authorized control service.
+2. **Offline collection:** a ForenX Field Collector runs locally on the client computer and produces a portable evidence package that the investigator transfers and imports into the Workbench.
+
+Both methods must feed the same evidence verification and analysis pipeline.
+
+## Non-negotiable requirements
+
+- Real browser discovery and evidence acquisition.
+- Real cryptographic hash calculation and verification.
+- Actual Chromium and Firefox artifact parsing.
+- A shared evidence-package format.
+- Real remote endpoint enrollment and scoped collection jobs.
+- No arbitrary remote shell.
+- Explicit authorization and a visible collection scope.
+- Persistent case management and audit records.
+- Functional reports containing actual investigation results.
+- A polished pink-purple interface.
+- Cross-platform packaging for Windows and Linux.
+- Automated tests and deployment documentation.
+- No fake production data or falsely reported success.
+
+---
+
+# 2. GOOGLE AI STUDIO IMPLEMENTATION STRATEGY
+
+AI Studio Build mode provides a React and Node.js web application environment. Use it for the supported web interface, frontend behavior, and related integration code.
+
+Create the complete source repository as a coherent monorepo, including independently deployable Python services and collector packages.
+
+Do not assume that the AI Studio preview runtime can execute a Windows executable, run arbitrary Python endpoint collection, or access a user's operating-system browser databases directly.
+
+Use the following development rules:
+
+1. Build the web interface in React and TypeScript.
+2. Use the AI Studio-supported web runtime for the previewable application.
+3. Implement the forensic control API and agent services in Python.
+4. Keep browser acquisition and parsing out of the React frontend.
+5. Make the production web interface communicate with the Python control API through a documented API contract.
+6. Provide an explicitly labeled synthetic demo mode for UI development only.
+7. Never silently fall back to fabricated results when the real API is unavailable.
+8. Generate complete source files rather than just presenting snippets in the chat.
+9. Export or synchronize the code to GitHub so platform-specific services can be built and tested outside AI Studio.
+10. Clearly identify which modules have actually executed and which remain unverified in the current development environment.
+
+Build and test the web app, Python backend, and platform-specific collectors as separate deliverables within one project.
+
+---
+
+# 3. PRODUCTION ARCHITECTURE
+
+Use a modular monorepo with independently deployable components.
+
+## 3.1 Investigator Workbench
+
+Technology:
+- React
+- TypeScript
+- A maintained, accessible component library
+- Tailwind CSS or another consistent design system
+- React Router
+- A typed API client
+- A suitable data-fetching and caching library
+
+Responsibilities:
+- User authentication
+- Case management
+- Local and remote mode selection
+- Endpoint management
+- Collection authorization
+- Job monitoring
+- Evidence package management
+- Artifact exploration
+- Timelines
+- Validation
+- Reports
+- Audit logs
+- Settings
+
+The frontend must not directly read local browser databases. It communicates with an authorized local service or the remote control API.
+
+## 3.2 ForenX Control API
+
+Technology:
+- Python 3.11 or newer, using a currently supported compatible release
+- FastAPI
+- Pydantic
+- SQLAlchemy
+- Alembic migrations
+- Uvicorn
+- PostgreSQL for production persistence
+
+Responsibilities:
+- Authentication and authorization enforcement
+- Case and evidence management
+- Endpoint enrollment and revocation
+- Collection job creation
+- Collection policy validation
+- Acquisition status tracking
+- Artifact upload registration
+- Audit logging
+- Validation and reporting coordination
+- Health checks and operational metrics
+
+The API must never accept arbitrary shell commands as collection instructions.
+
+## 3.3 ForenX Collection Agent
+
+Technology:
+- Python
+- Shared ForenX collection libraries
+- Platform-specific adapters
+- PyInstaller or a suitable maintained packaging method for release artifacts
+
+Responsibilities:
+- Local browser profile discovery
+- Authorized local collection
+- Validation of collection jobs
+- Browser artifact acquisition
+- SHA-256 calculation
+- Manifest generation
+- Evidence package creation
+- Secure remote transfer
+- Acquisition logging
+
+The agent must run on the operating system where the browser profiles exist.
+
+Build and test the Windows release on Windows and the Linux release on Linux. Do not assume one frozen executable is portable across operating systems.
+
+## 3.4 ForenX Analysis Worker
+
+Technology:
+- Python
+- Existing shared forensic processing modules
+- Celery with Redis, or a documented equivalent reliable job-processing architecture
+
+Responsibilities:
+- Parse acquired browser artifacts
+- Normalize timestamps
+- Persist extracted events
+- Execute known-answer validation
+- Generate reports
+- Update job status
+- Retry safe operations where appropriate
+- Record failures and warnings
+
+The worker must not modify original evidence during analysis.
+
+## 3.5 Persistence and storage
+
+Production stack:
+- PostgreSQL for application metadata
+- Redis for background job coordination
+- S3-compatible object storage or another appropriately protected evidence store
+- MinIO as an optional self-hosted object-storage implementation
+- Local protected file storage for the single-machine deployment
+
+Keep these types of data logically separate:
+
+1. Case metadata
+2. Evidence packages
+3. Individual artifact metadata
+4. Analysis outputs
+5. Audit records
+6. Temporary processing files
+
+Use database migrations and versioned schemas. Do not depend on automatic creation of production tables during every application startup.
+
+## 3.6 Deployment boundary
+
+Recommended production layout:
+
+Investigator Workbench
+    |
+    v
+HTTPS reverse proxy / identity layer
+    |
+    v
+ForenX Control API
+    |
+    +-- PostgreSQL
+    +-- Redis / job queue
+    +-- Evidence object storage
+    +-- Analysis workers
+    |
+    v
+Authenticated collection agents
+
+The same repository must also support a local deployment profile where the Workbench, API, storage, and local collection service run on the same computer.
+
+Do not require remote infrastructure for Local System Forensics.
+
+---
+
+# 4. PROJECT STRUCTURE
+
+Create a structured monorepo similar to the following:
+
+```text
+ForenX/
+├── apps/
+│   └── workbench-web/
+│       ├── src/
+│       │   ├── app/
+│       │   ├── components/
+│       │   ├── pages/
+│       │   ├── layouts/
+│       │   ├── hooks/
+│       │   ├── services/
+│       │   ├── schemas/
+│       │   ├── types/
+│       │   └── styles/
+│       ├── public/
+│       ├── tests/
+│       ├── package.json
+│       └── README.md
+├── services/
+│   ├── control-api/
+│   │   ├── src/forenx_api/
+│   │   │   ├── main.py
+│   │   │   ├── config.py
+│   │   │   ├── security/
+│   │   │   ├── api/
+│   │   │   ├── models/
+│   │   │   ├── schemas/
+│   │   │   ├── services/
+│   │   │   ├── repositories/
+│   │   │   └── audit/
+│   │   └── tests/
+│   ├── analysis-worker/
+│   │   ├── src/forenx_worker/
+│   │   └── tests/
+│   └── local-service/
+│       ├── src/forenx_local/
+│       └── tests/
+├── packages/
+│   └── forenx-core/
+│       └── src/forenx/
+│           ├── models/
+│           ├── schemas/
+│           ├── evidence/
+│           ├── acquisition/
+│           ├── integrity/
+│           ├── parsers/
+│           ├── timestamps/
+│           ├── validation/
+│           └── reporting/
+├── agents/
+│   └── forenx-collector/
+│       ├── src/forenx_agent/
+│       │   ├── main.py
+│       │   ├── enrollment.py
+│       │   ├── discovery.py
+│       │   ├── acquisition.py
+│       │   ├── jobs.py
+│       │   └── transport.py
+│       ├── packaging/
+│       └── tests/
+├── schemas/
+│   ├── evidence-manifest.schema.json
+│   ├── acquisition-job.schema.json
+│   └── api-contract/
+├── migrations/
+├── deployment/
+│   ├── docker/
+│   ├── compose/
+│   ├── reverse-proxy/
+│   └── scripts/
+├── docs/
+│   ├── architecture.md
+│   ├── installation.md
+│   ├── local-mode.md
+│   ├── remote-mode.md
+│   ├── evidence-methodology.md
+│   ├── package-format.md
+│   ├── security.md
+│   ├── threat-model.md
+│   ├── testing.md
+│   ├── deployment.md
+│   ├── troubleshooting.md
+│   └── limitations.md
+├── tests/
+│   ├── integration/
+│   ├── end_to_end/
+│   ├── security/
+│   └── fixtures/
+├── .github/workflows/
+├── .env.example
+├── .gitignore
+├── SECURITY.md
+├── CONTRIBUTING.md
+├── THIRD_PARTY_NOTICES.md
+├── LICENSE
+└── README.md
+```
+
+Adapt the layout if necessary, but retain clear module boundaries. Do not create empty files merely to imitate the example.
+
+---
+
+# 5. OPERATING MODE A — LOCAL SYSTEM FORENSICS
+
+## 5.1 User workflow
+
+The user opens ForenX and chooses:
+
+**Local System Forensics → Discover Browsers**
+
+The application discovers supported browsers and profiles on the machine hosting the local acquisition service.
+
+The user reviews the detected profiles and available artifacts, approves the collection scope, and selects:
+
+**Acquire & Analyze**
+
+The system then:
+1. Discovers supported browser artifacts.
+2. Displays the proposed collection scope.
+3. Records authorization.
+4. Acquires the selected artifacts.
+5. Generates artifact hashes and an evidence manifest.
+6. Registers a local acquisition.
+7. Runs the appropriate parser.
+8. Persists events and source references.
+9. Updates the timeline.
+10. Generates a report when requested.
+
+Do not require the user to manually find database files during ordinary local investigations.
+
+## 5.2 Browser discovery
+
+Initially support:
+- Google Chrome
+- Microsoft Edge
+- Brave
+- Chromium
+- Mozilla Firefox
+
+Discover only known browser configuration and profile locations.
+
+For Chromium-family browsers:
+- Resolve standard per-user data directories.
+- Inspect profile metadata such as supported `Local State` fields where appropriate.
+- Enumerate available profile directories.
+- Check for allowlisted artifacts such as `History` and `Bookmarks`.
+
+For Firefox:
+- Locate `profiles.ini`.
+- Resolve profile paths safely.
+- Discover supported `places.sqlite` databases.
+
+Use platform-aware path construction. Validate resolved paths and handle symbolic links, junctions, relative paths, and missing directories safely.
+
+Do not recursively scan the entire filesystem.
+
+Do not assume that a detected directory is a valid profile. Verify relevant metadata and database structure before marking it available.
+
+## 5.3 Local collection
+
+For supported SQLite artifacts, use an appropriate read-only acquisition strategy.
+
+Where appropriate, use SQLite's online backup API through Python's `sqlite3` backup functionality to create a consistent logical snapshot. If a byte-preserving acquisition is required, implement it separately and preserve relevant sidecars with accurate documentation.
+
+Do not checkpoint, vacuum, rewrite, or alter the source database to facilitate collection.
+
+For ordinary file artifacts such as a supported Bookmarks JSON file, acquire a controlled copy and record any source changes or access errors that are detected.
+
+Document that live collection can be incomplete or affect system metadata, and that a browser artifact collector is not equivalent to a validated full-disk acquisition.
+
+## 5.4 Supported artifact scope
+
+Initially acquire only allowlisted supported artifacts.
+
+Chromium-family:
+- `History`
+- `Bookmarks`, when available
+
+Firefox:
+- `places.sqlite`
+
+Account for related SQLite sidecars such as `-wal` and `-shm`. The acquisition manifest must record whether they were detected and how the selected acquisition method handled them.
+
+Do not collect:
+- Password databases
+- Cookies
+- Session secrets
+- Authentication tokens
+- Saved credentials
+- Arbitrary browser extension files
+- Entire browser directories
+- Unrelated user files
+
+New artifact types must be explicitly reviewed before they are added to the allowlist.
+
+---
+
+# 6. OPERATING MODE B — REMOTE SYSTEM FORENSICS
+
+Remote System Forensics must allow an investigator to collect evidence from a separate client laptop.
+
+The investigator's Workbench and the client's browser profiles are on different machines. Do not assume that the Workbench can read client files directly.
+
+## 6.1 Remote workflow
+
+Implement this workflow:
+
+1. The investigator creates or selects a case.
+2. The client endpoint is enrolled through an authorized process.
+3. The Workbench displays the endpoint's actual enrollment and connection status.
+4. The investigator requests discovery of approved browser profiles.
+5. The endpoint agent discovers profiles locally.
+6. The investigator reviews the reported discovery inventory and collection scope.
+7. The investigator authorizes a collection job.
+8. The control service records the job and its authorization.
+9. The agent receives and validates the scoped job.
+10. The agent acquires selected artifacts.
+11. The agent records acquisition metadata and hashes.
+12. The agent creates the evidence package.
+13. The package is transferred over an authenticated encrypted channel.
+14. The Workbench verifies the received package and artifact hashes.
+15. The application registers the acquisition and artifacts.
+16. The analysis worker processes the package.
+17. The Workbench displays findings, warnings, validation results, and reports.
+
+If the endpoint is offline, revoked, untrusted, or unavailable, report the real status. Never claim that collection succeeded.
+
+## 6.2 Endpoint enrollment
+
+Implement a secure enrollment workflow.
+
+Required behavior:
+- Generate short-lived, one-time enrollment tokens.
+- Bind enrollment to the intended organization and endpoint record.
+- Require an authorized administrator or investigator to approve enrollment.
+- Exchange enrollment tokens for device-specific credentials.
+- Prefer mutual TLS or an equally robust endpoint identity mechanism.
+- Store endpoint keys using appropriate operating-system protection.
+- Support certificate rotation and endpoint revocation.
+- Reject expired, revoked, duplicated, or invalid enrollment tokens.
+- Log enrollment and revocation operations.
+
+Do not place permanent shared credentials inside every agent binary.
+
+Do not embed production certificates or secrets in the source code.
+
+## 6.3 Remote job format
+
+Define a strict, versioned acquisition-job schema.
+
+A job should contain:
+- Job ID
+- Case ID
+- Endpoint ID
+- Requesting investigator ID
+- Authorized scope
+- Approved browser families
+- Approved profile references
+- Approved artifact types
+- Job creation timestamp
+- Expiration time
+- Unique nonce or replay protection value
+- Job schema version
+- Authorization metadata
+- Job status
+
+The job must not contain arbitrary shell commands, scripts supplied by the server, arbitrary executable files, or unrestricted filesystem paths.
+
+The agent may accept only predefined and allowlisted acquisition operations.
+
+Profile paths must be resolved locally from previously discovered and authorized profile references, not blindly trusted from a remote request.
+
+## 6.4 Remote transport and control service
+
+Use:
+- HTTPS with TLS
+- Device authentication
+- Scoped authorization
+- Server-side job validation
+- Request expiration
+- Replay protection
+- Upload size limits
+- Rate limits
+- Audit logging
+- Secure retry handling
+
+The agent must establish an authorized outbound connection to the control service where practical. Do not require exposing an arbitrary administrative port on every client laptop.
+
+For a production multi-user service, implement explicit user and organization boundaries. One investigator must not access another organization's endpoint, evidence, or reports.
+
+## 6.5 Remote agent restrictions
+
+The agent must:
+- Operate visibly under its documented identity.
+- Require explicit deployment and authorization.
+- Avoid covert installation or hiding.
+- Avoid privilege escalation.
+- Avoid arbitrary remote execution.
+- Avoid credential collection.
+- Collect only approved artifact types.
+- Validate every remote job.
+- Log collection actions and results.
+- Handle cancellation and disconnection safely.
+- Report partial failures honestly.
+
+For a first release, support one-shot collection without persistent installation. A persistent managed agent may be added as a separate, explicitly approved installation mode.
+
+## 6.6 Offline remote collection
+
+Provide an offline collection route for client systems that cannot connect to the control service.
+
+The Field Collector must:
+- Run locally on the client laptop.
+- Discover supported profiles.
+- Require review of the collection scope.
+- Acquire approved artifacts.
+- Generate a portable evidence package.
+- Record hashes and acquisition metadata.
+- Write the package to an approved destination.
+
+The investigator imports that package into the Workbench.
+
+Offline and connected remote collection must use the same package schema and analysis pipeline.
+
+---
+
+# 7. SHARED EVIDENCE PACKAGE
+
+Define a versioned, documented evidence-package format.
+
+Use a package such as:
+
+`FX-ACQ-<unique-id>.forenx.zip`
+
+Example internal structure:
+
+```text
+manifest.json
+acquisition_log.json
+artifacts/
+    chrome-default/
+        History
+        Bookmarks
+    firefox-profile-1/
+        places.sqlite
+```
+
+Include only files actually acquired.
+
+## Manifest requirements
+
+Record:
+- Manifest schema version
+- Package ID
+- Case ID
+- Acquisition ID
+- Acquisition method
+- ForenX version
+- Browser family
+- Profile label
+- Artifact type
+- Relative artifact path
+- Artifact size
+- SHA-256 hash
+- Acquisition start and completion timestamps in UTC
+- Endpoint ID where applicable
+- Acquisition completeness status
+- Sidecar discovery and handling
+- Parser compatibility information, if known
+- Warnings
+- Errors
+- Source-change indicators where available
+- Provenance notes
+
+Avoid unnecessarily exposing operating-system usernames or full profile paths in exported packages.
+
+## Package integrity
+
+Calculate SHA-256 independently for each artifact.
+
+After writing the completed package, calculate a separate SHA-256 hash for the package and store it outside the archive or in the local application database.
+
+Do not place a claimed hash of the completed package inside the same package and treat it as self-verifying.
+
+Upon package import:
+1. Validate the package structure.
+2. Parse and validate the manifest schema.
+3. Reject unsafe paths and malformed archives.
+4. Verify each declared artifact hash.
+5. Compare the received package hash with the recorded transport or acquisition value when available.
+6. Record all verification outcomes.
+7. Block normal parsing of an artifact whose integrity verification fails pending investigator review.
+
+A valid hash proves consistency with the recorded bytes, not authenticity of the source evidence.
+
+## Safe package handling
+
+Prevent:
+- Archive path traversal
+- Absolute paths in archive members
+- Symlink escapes
+- Unexpected files outside the allowlist
+- Archive bombs
+- Excessive file counts
+- Unexpected expanded size
+- Malformed manifest values
+- HTML or script injection in file names and reports
+
+Never execute files from an evidence package.
+
+---
+
+# 8. FORENSIC ANALYSIS ENGINE
+
+Implement a shared Python processing engine used by both operating modes.
+
+## 8.1 Chromium parser
+
+Analyze compatible Chromium-based browser History databases.
+
+Initially extract supported:
+- URLs
+- Page titles
+- Visit timestamps
+- Visit identifiers
+- Visit transition metadata where available
+- Download metadata supported by the schema
+
+Support Chrome, Edge, Brave, and Chromium only where their database schemas have been verified as compatible.
+
+Inspect tables and columns before querying. Record unsupported or missing schema elements.
+
+## 8.2 Firefox parser
+
+Analyze supported Firefox `places.sqlite` databases.
+
+Initially extract:
+- Browsing history
+- URLs and titles where available
+- Visit timestamps
+- Visit identifiers
+- Bookmarks
+- Related supported metadata
+
+Support only structures actually tested.
+
+## 8.3 Source traceability
+
+Each extracted event should identify:
+- Event ID
+- Case ID
+- Acquisition ID
+- Evidence ID
+- Analysis run ID
+- Browser family
+- Event type
+- URL where relevant
+- Title where relevant
+- Raw timestamp
+- Timestamp format
+- Normalized UTC timestamp
+- Timestamp conversion status
+- Source database
+- Source table
+- Source record ID where available
+- Parser name and version
+- Warnings
+
+Do not invent source record IDs when the source does not provide them.
+
+## 8.4 Timestamp normalization
+
+Implement browser-specific timestamp converters.
+
+Preserve the original timestamp value and its format. Convert supported values to UTC only when the applicable interpretation is known.
+
+Handle:
+- Invalid timestamps
+- Out-of-range timestamps
+- Missing timestamps
+- Precision differences
+- Ambiguous time formats
+- Unsupported timestamp representations
+
+Do not assume that all browser timestamps use the Unix epoch.
+
+## 8.5 Analysis runs
+
+Each analysis must create a separate AnalysisRun.
+
+Record:
+- Analysis run ID
+- Acquisition ID
+- Parser versions
+- Start and completion timestamps
+- Status
+- Records seen
+- Records extracted
+- Records skipped
+- Warnings
+- Errors
+
+Repeated analysis must not silently overwrite earlier evidence or results.
+
+Do not collapse separate acquisitions simply because their files have identical hashes.
+
+---
+
+# 9. VALIDATION AND REPRODUCIBILITY
+
+The ForenX validation engine is the main academic research feature.
+
+Use synthetic known-answer datasets with predefined expected browser events.
+
+Implement:
+- Expected event manifests
+- Actual extracted events
+- Matching rules
+- Matched records
+- Missing records
+- Unexpected records
+- Field mismatches
+- Duplicate-event handling
+- Timestamp tolerances
+- Validation history
+- Reproducible evaluation reports
+
+Calculate:
+
+Precision = correctly matched extracted events / all extracted events in the defined evaluation scope.
+
+Recall = correctly matched expected events / all expected events in the defined evaluation scope.
+
+If a denominator is zero, display N/A.
+
+Document the matching rules and tested scenarios. Do not treat a passing synthetic test as proof of universal extraction accuracy.
+
+Test the following:
+- Known browser visits
+- Repeated visits
+- Supported downloads
+- Supported bookmarks
+- Missing records
+- Changed fields
+- Invalid timestamps
+- Corrupt databases
+- Unsupported schemas
+- Missing files
+- Changed evidence
+- Package tampering
+- Partial acquisition
+
+---
+
+# 10. CASE MANAGEMENT AND DATABASE
+
+Use PostgreSQL for production deployments.
+
+Create schema migrations and proper indexes.
+
+At minimum, implement these entities.
+
+## User
+- ID
+- Organization ID
+- Display name
+- Authentication subject
+- Role
+- Status
+- Created timestamp
+
+## Organization
+- ID
+- Name
+- Status
+- Created timestamp
+
+## Case
+- ID
+- Organization ID
+- Case name
+- Description
+- Status
+- Created by
+- Created timestamp
+- Updated timestamp
+- Notes
+
+## Endpoint
+- ID
+- Organization ID
+- Device label
+- Operating system
+- Agent version
+- Enrollment status
+- Certificate identity
+- Last seen
+- Created timestamp
+- Revocation timestamp
+
+## AcquisitionJob
+- ID
+- Case ID
+- Endpoint ID where applicable
+- Requesting user ID
+- Scope
+- Status
+- Created timestamp
+- Started timestamp
+- Completed timestamp
+- Outcome summary
+
+## EvidencePackage
+- ID
+- Case ID
+- Acquisition ID
+- Endpoint ID where applicable
+- Object storage reference
+- Manifest version
+- Package size
+- Package SHA-256
+- Import status
+- Verification status
+- Created timestamp
+
+## EvidenceArtifact
+- ID
+- Evidence package ID
+- Artifact path
+- Browser family
+- Artifact type
+- File size
+- SHA-256
+- Acquisition method
+- Verification status
+- Warnings
+
+## AnalysisRun
+- ID
+- Case ID
+- Evidence package ID
+- Parser versions
+- Status
+- Started timestamp
+- Completed timestamp
+- Statistics
+
+## Event
+- ID
+- Case ID
+- Acquisition ID
+- Evidence artifact ID
+- Analysis run ID
+- Browser family
+- Event type
+- Raw timestamp
+- Timestamp format
+- Normalized UTC
+- URL
+- Title
+- Source table
+- Source record ID
+- Parser version
+
+## ValidationRun
+- ID
+- Case ID
+- Dataset version
+- Expected count
+- Actual count
+- Matched count
+- Missing count
+- Unexpected count
+- Precision
+- Recall
+- Summary
+- Created timestamp
+
+## AuditEntry
+- ID
+- Organization ID
+- User ID where applicable
+- Endpoint ID where applicable
+- Case ID where applicable
+- Operation
+- Outcome
+- Timestamp UTC
+- Safe metadata
+- Previous hash and entry hash if hash chaining is enabled
+
+Use foreign keys, indexes, transaction boundaries, and explicit deletion or retention policies.
+
+---
+
+# 11. ROLES AND ACCESS CONTROL
+
+Implement least-privilege, server-enforced authorization.
+
+Suggested roles:
+
+### Platform Administrator
+Manages platform configuration, service health, approved integrations, and user access.
+
+### Investigator
+Creates cases, requests approved collections, reviews assigned evidence, performs analyses, and generates reports.
+
+### Reviewer
+Reviews investigation results, validation findings, and audit records without being able to alter acquisition results.
+
+### Endpoint Administrator
+Enrolls, revokes, and manages authorized endpoints within an assigned organization.
+
+Implement organization-level isolation.
+
+Do not trust a frontend role label for authorization. Every sensitive operation must be checked on the server.
+
+Implement:
+- Session expiry
+- Secure cookies where applicable
+- CSRF protections for cookie-authenticated state-changing requests
+- Strict CORS
+- Rate limiting
+- Account or identity revocation
+- Scoped endpoint permissions
+- Audit entries for privileged actions
+
+Use an established authentication provider or OIDC for production deployment. Do not invent password hashing, token signing, or authentication protocols.
+
+Do not hardcode administrator credentials.
+
+---
+
+# 12. PRODUCTION SECURITY AND PRIVACY
+
+Create a documented threat model and security review.
+
+## API security
+- HTTPS in production
+- Strong user and endpoint authentication
+- Strict request schemas
+- Rate limiting
+- Request-size limits
+- Input validation
+- Secure error responses
+- Secret management
+- Dependency security scanning
+
+## Endpoint security
+- Only predefined collection jobs
+- No arbitrary command execution
+- No silent installation
+- No hidden persistent agent
+- No credential collection
+- No unrestricted filesystem collection
+- No privilege escalation
+- Explicit collection authorization
+
+## Evidence security
+- Protected evidence storage
+- TLS for remote transfer
+- Storage encryption appropriate to the deployment
+- Optional encrypted offline packages using a maintained and reviewed encryption format
+- Strict access controls
+- Evidence retention settings
+- Secure cleanup of temporary processing files
+- No sensitive content in ordinary logs
+- No evidence upload to third-party AI services
+
+Do not implement custom cryptographic algorithms.
+
+## HTML and archive safety
+- Escape untrusted HTML content
+- Validate archive member paths
+- Reject path traversal
+- Apply archive size and file-count limits
+- Never execute package content
+- Safely handle malformed data
+
+## Audit protection
+Use append-only audit workflows where practical and consider hash chaining to expose accidental or unauthorized modification. Document that local hash chaining does not prevent a privileged user from replacing all records and recomputing the chain.
+
+## Privacy controls
+- Collect the minimum necessary artifacts.
+- Display the collection scope.
+- Record authorization.
+- Support retention and deletion policy workflows.
+- Avoid scanning unrelated users or folders.
+- Never collect passwords, cookies, or authentication tokens in the initial release.
+- Explain what is collected before each acquisition.
+
+---
+
+# 13. PINK-PURPLE INTERFACE DESIGN
+
+The interface must look carefully designed by a human product designer, not like a generic AI-generated dashboard.
+
+## Design palette
+
+- Primary purple: #6D3FC0
+- Deep purple: #43206F
+- Lavender: #F2ECFA
+- Pale background: #FCFAFD
+- Rose pink: #D96A9B
+- Soft pink: #FCEAF2
+- Muted mauve: #A77AA6
+- Primary text: #282235
+- Secondary text: #746B80
+- Border: #E8E0EF
+
+Use pink and purple as accents rather than filling every panel with bright color.
+
+Use clean typography, restrained rounded corners, consistent spacing, accessible contrast, quiet hover effects, and clear status indicators.
+
+Avoid excessive gradients, glassmorphism, neon colors, oversized decorative headings, and unnecessary animations.
+
+## Primary navigation
+
+- Overview
+- Cases
+- Local System Forensics
+- Remote System Forensics
+- Endpoints
+- Collection Jobs
+- Evidence Vault
+- Artifact Explorer
+- Timeline
+- Validation Lab
+- Reports
+- Audit Log
+- Settings
+- About
+
+## Overview page
+
+Show real data:
+- Cases
+- Registered endpoints
+- Completed acquisitions
+- Pending collection jobs
+- Evidence packages
+- Integrity mismatches
+- Recent analyses
+- Validation results
+
+Never fabricate counts. For an empty database, display a real empty state with an appropriate next action.
+
+## Local System Forensics page
+
+Show:
+- Detected browser profiles
+- Available artifacts
+- Collection scope
+- Authorization summary
+- Acquisition progress
+- File-level outcomes
+- Hash results
+- Analysis status
+- Warnings
+
+## Remote System Forensics page
+
+Show:
+- Enrolled endpoints
+- Endpoint operating systems
+- Connection status
+- Agent version
+- Last seen
+- Pending jobs
+- Active jobs
+- Failed jobs
+- Completed acquisitions
+- Package verification status
+
+Never show fictional endpoints or fake connection statuses outside explicitly labeled synthetic demo mode.
+
+## Collection job detail page
+
+Show:
+- Job ID
+- Case
+- Endpoint
+- Requester
+- Scope
+- Authorization status
+- Created timestamp
+- Expiration
+- Progress events
+- Acquired artifacts
+- Failed artifacts
+- Package hash
+- Final outcome
+
+## Evidence Vault
+
+Show:
+- Evidence package inventory
+- Manifest status
+- Package hash
+- Artifact hashes
+- Acquisition method
+- Verification outcomes
+- Source provenance
+- Warnings
+
+## Artifact Explorer and Timeline
+
+Allow searching and filtering by:
+- Case
+- Acquisition
+- Browser
+- Event type
+- URL
+- Title
+- Date range
+- Evidence ID
+
+Show raw timestamps, normalized UTC values, and source references where available.
+
+## Validation and reports
+
+Display actual validation results and actual report exports.
+
+## UI state requirements
+
+Every page must support:
+- Loading
+- Empty state
+- Error state
+- Permission denied
+- Partial success
+- Success
+- Retry when safe
+- Accessible labels
+- Keyboard navigation
+
+Do not implement decorative buttons without working actions.
+
+---
+
+# 14. API DESIGN
+
+Provide a documented versioned API.
+
+Use an `/api/v1` prefix.
+
+Implement API groups for:
+- Authentication
+- Cases
+- Local acquisition
+- Endpoints
+- Endpoint enrollment
+- Collection jobs
+- Evidence packages
+- Evidence verification
+- Artifact inventory
+- Analysis runs
+- Events and timeline
+- Validation runs
+- Reports
+- Audit records
+- Health and readiness checks
+
+Generate OpenAPI documentation from the actual implemented FastAPI schemas.
+
+Use:
+- Consistent response formats
+- Clear HTTP status codes
+- Request validation
+- Pagination
+- Filtering
+- Stable error codes
+- Idempotency protections where appropriate
+
+Do not return local filesystem secrets, internal exception traces, or authentication tokens.
+
+Use signed or otherwise authenticated upload requests for remote evidence transfer.
+
+Enforce authorization for each endpoint; do not rely on the frontend to hide inaccessible records.
+
+---
+
+# 15. EVIDENCE PROCESSING AND FILE STORAGE
+
+Use local protected storage in Local System Forensics and a configurable protected evidence store in server deployments.
+
+Use unique generated IDs rather than trusting incoming filenames as storage paths.
+
+Store uploaded packages under generated safe identifiers.
+
+Before importing:
+1. Enforce maximum size.
+2. Verify the upload completed.
+3. Store the original received package without overwriting it.
+4. Calculate the received package hash.
+5. Inspect archive members.
+6. Verify the manifest and artifact hashes.
+7. Record each result.
+8. Only then permit normal analysis.
+
+Use separate directories or object prefixes for:
+- Incoming packages
+- Verified evidence
+- Analysis working copies
+- Temporary files
+- Reports
+
+Apply retention rules and resource limits.
+
+Do not automatically delete evidence because a parser failed.
+
+Do not claim secure erasure from ordinary file deletion alone.
+
+---
+
+# 16. REPORTING
+
+Implement reports generated from actual persisted results.
+
+Supported output:
+- CSV
+- JSON
+- HTML
+
+PDF can be added if it can be implemented and tested reliably.
+
+Report types:
+- Case summary
+- Acquisition report
+- Evidence manifest
+- Integrity verification report
+- Browser artifact report
+- Unified timeline
+- Validation report
+- Audit summary
+
+Every report should identify:
+- Report ID
+- ForenX version
+- Case ID
+- Acquisition ID
+- Evidence IDs
+- Analysis run ID
+- Creation time
+- Parser versions
+- Acquisition method
+- Hashes
+- Extraction counts
+- Verification outcomes
+- Validation outcomes
+- Warnings and errors
+- Supported scope
+- Limitations
+
+Escape untrusted values correctly in HTML output.
+
+Keep passwords, cookies, authentication tokens, and other excluded secrets out of reports.
+
+Do not state that findings prove a person performed an action or that a hash proves authenticity.
+
+---
+
+# 17. DEPLOYMENT AND OPERATIONS
+
+Provide separate deployment configurations for:
+
+## A. Local single-machine deployment
+
+Must support:
+- Local Workbench
+- Local collection service
+- Local evidence storage
+- Local analysis
+- No remote service required for local mode
+
+Document Windows and Linux setup.
+
+The service must bind to localhost by default when used as a local desktop-style deployment.
+
+## B. Self-hosted or cloud remote deployment
+
+Provide documented configurations for:
+- Web UI
+- FastAPI control API
+- Analysis worker
+- PostgreSQL
+- Redis
+- Evidence storage
+- HTTPS reverse proxy
+- Secrets
+- Backups
+- Logs and metrics
+
+Use Docker Compose for repeatable self-hosted development and deployment where suitable. Cloud deployments may use equivalent managed services.
+
+Do not assume that an ephemeral application filesystem is a reliable permanent evidence store.
+
+Provide:
+- Development configuration
+- Production example configuration
+- `.env.example` with placeholders only
+- Database migration commands
+- Backup and restore commands
+- Health checks
+- Readiness checks
+- Service restart configuration
+- Log rotation
+- Resource limits
+- Evidence storage permissions
+- TLS instructions
+
+Never commit production secrets, private keys, database passwords, or real evidence to source control.
+
+Provide explicit instructions for generating and revoking endpoint identities.
+
+## C. Build and distribution
+
+Provide:
+- Windows collector build configuration
+- Linux collector build configuration
+- Checksums for release artifacts
+- Version identification
+- Release notes
+- Build instructions
+- Clean-machine installation tests
+
+Build platform-specific release binaries on compatible operating systems.
+
+Do not describe a binary as code-signed unless actual code signing was performed.
+
+## D. CI/CD
+
+Create CI workflows for:
+- Python tests
+- Frontend tests
+- Linting
+- Type checks
+- Dependency scanning
+- API schema checks
+- Build checks
+- Integration tests
+- Cross-platform collector tests where runners permit them
+
+Do not deploy automatically to production from unreviewed code.
+
+Provide a release checklist requiring review and verified test results.
+
+---
+
+# 18. COMPLETE TEST STRATEGY
+
+Use synthetic evidence and isolated test endpoints. Do not use personal browsing data in the default automated test suite.
+
+## Browser discovery tests
+- Known Chrome profile
+- Multiple Chromium profiles
+- Firefox profiles
+- Missing browser
+- Malformed profile metadata
+- Inaccessible directory
+- Invalid paths
+- Symlink and junction handling
+
+## Acquisition tests
+- Valid SQLite database
+- SQLite database with WAL
+- Concurrent database updates
+- Locked database
+- Corrupt database
+- Missing artifact
+- Source file changes
+- Partial acquisition
+- Cancellation
+- Source-data preservation checks
+
+## Evidence package tests
+- Valid package
+- Invalid manifest
+- Missing artifact
+- Changed artifact
+- Changed package
+- Traversal path
+- Unexpected archive file
+- Archive bomb limits
+- Duplicate package import
+- Partial acquisition report
+
+## Remote agent tests
+- Valid enrollment
+- Invalid token
+- Expired token
+- Revoked endpoint
+- Invalid device certificate
+- Invalid job signature if signatures are implemented
+- Expired job
+- Replay attempt
+- Out-of-scope job
+- Disconnection
+- Interrupted transfer
+- Retry after transient failure
+- Package integrity mismatch
+
+## Backend tests
+- Authentication
+- RBAC
+- Organization isolation
+- Case ownership
+- Input validation
+- Database migration
+- Transaction failure
+- Job lifecycle
+- Worker retries
+- Report export
+
+## Frontend tests
+- Navigation
+- Empty states
+- API connection error
+- Loading state
+- Permission denial
+- Local acquisition workflow
+- Remote enrollment workflow
+- Collection job review
+- Evidence package import
+- Timeline filtering
+- Report export
+- Responsive layout
+- Keyboard access
+
+## Security tests
+- Unsafe archive rejection
+- HTML injection
+- SQL injection resistance
+- Unauthorized API access
+- Cross-organization access denial
+- Credential leakage checks
+- Secret scanning
+- Dependency vulnerability review
+- Untrusted file path handling
+- Improper job execution rejection
+
+## End-to-end acceptance tests
+
+At minimum, demonstrate these working scenarios:
+
+### Scenario 1 — Local
+Create case → Discover local browser → Authorize → Acquire artifact → Calculate hash → Analyze → View timeline → Export report.
+
+### Scenario 2 — Connected remote
+Enroll synthetic endpoint → Discover endpoint profiles → Approve job → Acquire browser artifact → Transfer package → Verify → Analyze → Export report.
+
+### Scenario 3 — Offline remote
+Run portable collector against a synthetic test profile → Create package → Transfer package → Import into Workbench → Verify → Analyze → Report.
+
+### Scenario 4 — Integrity failure
+Modify a test package after hashing → Import package → Detect the mismatch → Block normal analysis of the affected artifact → Record an audit event.
+
+### Scenario 5 — Authorization failure
+Submit a collection request for an unauthorized endpoint or artifact → Reject it → Record the result → Do not collect data.
+
+Run tests when execution is available. Record actual commands and results. Do not fabricate passing test counts.
+
+---
+
+# 19. RESEARCH AND DOCUMENTATION
+
+The central research question is:
+
+"How can source-traceable evidence acquisition and known-answer validation improve the reproducibility of cross-browser forensic analysis across local and remote environments?"
+
+Document:
+- Problem statement
+- Project objectives
+- Architecture
+- Evidence acquisition methodology
+- Package schema
+- Supported browser matrix
+- Hash verification methodology
+- Timestamp conversion rules
+- Validation matching methodology
+- Precision and recall
+- Threat model
+- Security controls
+- Test environment
+- Measured results
+- Limitations
+- Third-party components and licenses
+
+Do not claim that timeline analysis, browser parsing, or SHA-256 hashing alone are original research contributions.
+
+The proposed contribution is the integration of source traceability, evidence integrity records, controlled acquisition metadata, and known-answer validation into a reproducible cross-environment workflow.
+
+---
+
+# 20. IMPLEMENTATION PHASES
+
+Do not attempt to create every subsystem in one uncontrolled code-generation pass. Maintain a working repository and complete each phase.
+
+## Phase 1 — Repository assessment and project foundation
+Inspect existing code, create the monorepo structure, record design decisions, configure dependencies, and establish test commands.
+
+## Phase 2 — Shared evidence schema
+Define versioned acquisition-job schemas, evidence manifests, common models, and API contracts.
+
+## Phase 3 — Core forensic engine
+Implement case-independent browser parsers, timestamp conversions, evidence hashing, source references, and parser tests.
+
+## Phase 4 — Local acquisition
+Implement browser discovery, profile listing, controlled collection, package creation, hashing, local registration, and analysis.
+
+## Phase 5 — Workbench frontend
+Build the pink-purple interface and connect it to actual API contracts. Use synthetic demo data only when the interface explicitly enters demo mode.
+
+## Phase 6 — Control API and persistence
+Implement FastAPI, SQLAlchemy models, Alembic migrations, PostgreSQL persistence, authentication, authorization, and audit logging.
+
+## Phase 7 — Remote agent
+Implement enrollment, identity management, scoped jobs, local collection, secure package creation, and agent tests.
+
+## Phase 8 — Remote job orchestration
+Implement the job lifecycle, connection status, package transfer, evidence registration, retries, expiration, and revocation.
+
+## Phase 9 — Analysis worker and reporting
+Implement asynchronous analysis, persistent extraction results, validation jobs, and report generation.
+
+## Phase 10 — Production security
+Review secrets, access control, archive processing, storage permissions, remote authentication, transport security, logging, and deployment configuration.
+
+## Phase 11 — End-to-end testing
+Run the acceptance scenarios and relevant integration tests, fix defects, and document unverified behavior.
+
+## Phase 12 — Packaging and operations
+Build platform-specific collector distributions, migration scripts, deployment configuration, health checks, backups, and installation documentation.
+
+## Phase 13 — Release assessment
+Compare the actual system against the Definition of Done. Generate an honest release assessment listing completed features, failed tests, unresolved vulnerabilities, and limitations.
+
+At the end of each phase:
+- List changed source files.
+- Explain the implementation.
+- Run applicable tests where possible.
+- Review failures.
+- Fix defects before moving on when practical.
+- Record any environment limitation.
+- Continue with the next phase without regenerating working code unnecessarily.
+
+If AI Studio cannot execute a Python service or platform-specific binary in its preview environment, generate the real source files and the exact external build/test commands. Clearly distinguish generated code from tested code.
+
+---
+
+# 21. DEFINITION OF DONE
+
+ForenX is ready for a controlled production pilot only when:
+
+1. Local System Forensics works on supported Windows and Linux environments.
+2. Remote System Forensics works with an authenticated test endpoint.
+3. The offline Field Collector and connected remote agent use the same evidence-package schema.
+4. Evidence packages contain real acquired files and accurate manifests.
+5. Hashes are actually calculated and independently verified.
+6. Unauthorized jobs are rejected before collection.
+7. Browser parsing retains source references and raw timestamps.
+8. Reports are produced from persistent real results.
+9. Failed and partial acquisitions are clearly identified.
+10. Database migrations, backups, and restoration have been tested.
+11. The application does not rely on fabricated production data.
+12. Automated tests and security checks have been run, with results recorded.
+13. Secrets and endpoint identities are not hardcoded.
+14. API, agent, storage, and user access controls are documented and tested.
+15. The Windows and Linux collectors have been built and tested on their intended platforms.
+16. The deployment instructions work on a clean test environment.
+17. Known security defects are reviewed before release.
+18. Documentation accurately explains limitations and operating assumptions.
+
+A production pilot is not equivalent to forensic certification or guaranteed legal admissibility.
+
+---
+
+# 22. FINAL BUILD INSTRUCTIONS
+
+Start by inspecting the existing project.
+
+Create or update the source files in the actual workspace. Implement the complete repository in the phases defined above. Do not stop after generating a visual prototype.
+
+Keep the frontend, control API, analysis worker, local collector, and remote collector as well-defined components.
+
+Prioritize:
+1. Evidence integrity
+2. Correct acquisition
+3. Correct extraction
+4. Authorization and secure remote collection
+5. Source traceability
+6. Reproducibility
+7. Usable interface
+8. Operational reliability
+
+Do not simulate successful collection, endpoint connectivity, hash verification, or report generation.
+
+Do not describe the application as production-ready unless the implemented system has met the stated release criteria and the verification status is documented.
+
+Begin Phase 1 now. Inspect the current project, report the existing architecture, identify the changes required, and start implementing the first complete, testable phase. Continue until the defined workflows work end to end or a specific execution limitation prevents further progress.
